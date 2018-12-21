@@ -20,3 +20,7 @@ C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Business\b
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Business\obj\Debug\GlitterTweeting.Business.csproj.CopyComplete
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Business\obj\Debug\GlitterTweeting.Business.dll
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Business\obj\Debug\GlitterTweeting.Business.pdb
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Business\bin\Debug\GlitterTweeting.Business.dll.config
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Business\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Business\bin\Debug\GlitterTweeting.Shared.dll.config
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Business\bin\Debug\EntityFramework.SqlServer.xml

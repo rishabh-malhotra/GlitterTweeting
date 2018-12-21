@@ -9,3 +9,9 @@ C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Shared\obj
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Shared\obj\Debug\GlitterTweeting.Shared.csproj.CopyComplete
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Shared\obj\Debug\GlitterTweeting.Shared.dll
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Shared\obj\Debug\GlitterTweeting.Shared.pdb
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\GlitterTweeting.Shared.dll.config
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\EntityFramework.dll
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\EntityFramework.xml
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Shared\obj\Debug\GlitterTweeting.Shared.csprojAssemblyReference.cache

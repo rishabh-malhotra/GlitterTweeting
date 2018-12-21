@@ -17,3 +17,4 @@ C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\D
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Data\obj\Debug\GlitterTweeting.Data.csproj.CopyComplete
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Data\obj\Debug\GlitterTweeting.Data.dll
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Data\obj\Debug\GlitterTweeting.Data.pdb
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\GlitterTweeting.Shared.dll.config

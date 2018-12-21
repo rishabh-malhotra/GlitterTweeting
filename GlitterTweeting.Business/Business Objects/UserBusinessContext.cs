@@ -56,8 +56,12 @@ namespace GlitterTweeting.Business.Business_Objects
                     throw new Exceptions.AlreadyExistsException("Email address already in use");
                 }
            
-            
         }
+
+        //public Task<UserCompleteDTO> LoginUserCheck(object userLoginDTO)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         /// <summary>
         /// Checks if the login is valid.
@@ -65,7 +69,24 @@ namespace GlitterTweeting.Business.Business_Objects
         /// <param name="email">Email of the user</param>
         /// <param name="password">Password of the user</param>
         /// <returns>ID of the user or exception</returns>
-       
+        public async Task<UserCompleteDTO> LoginUserCheck(UserLoginDTO userLoginDTO)
+        {
+            UserAuthDTO userAuthInfo = UserDBContext.GetCredentialsByEmail(userLoginDTO.Email);
+            if (userAuthInfo == null)
+            {
+                throw new Exceptions.InvalidCredentialsException("Email not found");
+            }
+            if (PasswordHasher.ValidatePassword(userLoginDTO.Password, userAuthInfo.Password))
+            {
+                UserCompleteDTO userCompleteDTO = await UserDBContext.GetUserCompleteInfo(userAuthInfo);
+                return userCompleteDTO;
+            }
+            else
+            {
+                throw new Exceptions.InvalidCredentialsException("Password is Incorrect");
+            }
+        }
+
 
         /// <summary>
         /// Returns requested user

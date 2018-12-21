@@ -80,6 +80,7 @@ namespace GlitterTweeting.Data.DB_Context
             return null;
         }
 
+
         /// <summary>
         /// Returns the user with the given ID.
         /// </summary>
@@ -90,6 +91,23 @@ namespace GlitterTweeting.Data.DB_Context
             User user = await DBContext.User.FindAsync(id);
             UserBasicDTO userBasicInfo = UserBasicMapper.Map<User, UserBasicDTO>(user);
             return userBasicInfo;
+        }
+
+
+
+
+        async public Task<UserCompleteDTO> GetUserCompleteInfo(UserAuthDTO userAuthDTO)
+        {
+            User user = await DBContext.User.FindAsync(userAuthDTO.ID);
+            UserCompleteDTO userCompleteDTO = new UserCompleteDTO();
+            userCompleteDTO.ID = user.ID;
+            userCompleteDTO.FirstName = user.FirstName;
+            userCompleteDTO.LastName = user.LastName;
+            userCompleteDTO.PhoneNumber = user.PhoneNumber;
+            userCompleteDTO.Country = user.Country;
+            userCompleteDTO.Email = user.Email;
+            userCompleteDTO.Image = user.Image;
+            return userCompleteDTO;
         }
 
         /// <summary>
@@ -129,6 +147,9 @@ namespace GlitterTweeting.Data.DB_Context
                 }
             }
         }
+
+
+
 
         /// <summary>
         /// Destructor to class
