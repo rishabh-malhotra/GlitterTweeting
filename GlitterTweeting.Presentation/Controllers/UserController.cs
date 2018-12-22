@@ -1,22 +1,18 @@
 ﻿using AutoMapper;
 using GlitterTweeting.Business.Business_Objects;
-using GlitterTweeting.Business.Exceptions;
 using GlitterTweeting.Presentation.Models;
 using GlitterTweeting.Shared.DTO.User;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web;
 
 namespace GlitterTweeting.Presentation.Controllers
 {
-    
+
     public class UserController : ApiController
     {
         private UserBusinessContext UserBusinessContext;
@@ -64,13 +60,13 @@ namespace GlitterTweeting.Presentation.Controllers
                 }
                 UserLoginDTO useLoginDTO = UserMapper.Map<UserLoginModel, UserLoginDTO>(user);
                 UserCompleteDTO loginUser = await UserBusinessContext.LoginUserCheck(useLoginDTO);
-                HttpContext.Current.Session["UserID"] = loginUser.ID;
-                HttpContext.Current.Session["FirstName"] = loginUser.FirstName;
+                //HttpContext.Current.Session["UserID"] = loginUser.ID;
+                //HttpContext.Current.Session["FirstName"] = loginUser.FirstName;
+                //var Id = HttpContext.Current.Session["UserID"];
+                //var UserName = HttpContext.Current.Session["FirstName"];
 
-                var Id = HttpContext.Current.Session["UserID"];
-                var UserName = HttpContext.Current.Session["FirstName"];
 
-                return Ok(new { ID = Id, Username = UserName });
+                return Ok(new { ID = loginUser.ID, Username = loginUser.FirstName });
             }
             catch (Exception e)
             {

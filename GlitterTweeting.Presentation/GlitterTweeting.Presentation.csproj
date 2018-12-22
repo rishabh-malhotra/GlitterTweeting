@@ -227,6 +227,9 @@
     </Compile>
     <Compile Include="ModelFactory.cs" />
     <Compile Include="Models\AuthorModel.cs" />
+    <Compile Include="Models\DeleteTweetModel.cs" />
+    <Compile Include="Models\EditTweetModel.cs" />
+    <Compile Include="Models\FetchUserId.cs" />
     <Compile Include="Models\GetAllTweetsModel.cs" />
     <Compile Include="Models\NewTweetModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />

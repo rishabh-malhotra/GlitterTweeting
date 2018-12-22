@@ -35,9 +35,9 @@ namespace GlitterTweeting.Business.Business_Objects
             return tweetDBContext.DeleteTweet(uid, tid);
         }
 
-        public bool UpdateTweet(NewTweetDTO newTweetDTO, Guid tid)
+        public bool UpdateTweet(EditTweetDTO updatedTweetDTO)
         {
-            tweetDBContext.UpdateTweet(newTweetDTO, tid);
+            tweetDBContext.UpdateTweet(updatedTweetDTO);
             return true;
 
         }

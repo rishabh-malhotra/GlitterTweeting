@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace GlitterTweeting.Shared.DTO.Tweet
 {
-    public class GetAllTweetsDTO
+    public class EditTweetDTO
     {
-        public Guid MessageId { get; set; }
+        public Guid UserID { get; set; }
         public string Message { get; set; }
-        public string UserName { get; set; }
-        public System.DateTime CreatedAt { get; set; }
-
-
+        public Guid MessageID { get; set; }
     }
 }

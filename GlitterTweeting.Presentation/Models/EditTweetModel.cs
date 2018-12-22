@@ -5,11 +5,10 @@ using System.Web;
 
 namespace GlitterTweeting.Presentation.Models
 {
-    public class NewTweetModel
+    public class EditTweetModel
     {
-
         public string UserID { get; set; }
         public string Message { get; set; }
-
+        public string MessageID { get; set; }
     }
 }

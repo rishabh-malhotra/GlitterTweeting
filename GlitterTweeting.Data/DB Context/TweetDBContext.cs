@@ -58,6 +58,7 @@ namespace GlitterTweeting.Data.DB_Context
                 foreach (var item in tweet)
                 {
                     getAllTweets = new GetAllTweetsDTO();
+                    getAllTweets.MessageId = item.ID;
                     getAllTweets.Message = item.Message;
                     getAllTweets.CreatedAt = item.CreatedAt;
                     getAllTweets.UserName = author;
@@ -79,9 +80,9 @@ namespace GlitterTweeting.Data.DB_Context
             else { return false; }
         }
 
-        public void UpdateTweet(NewTweetDTO updatedTweet, Guid tid)
+        public void UpdateTweet(EditTweetDTO updatedTweet)
         {
-            Tweet tweet = DBContext.Tweet.Where(ds => ds.ID == tid).FirstOrDefault();
+            Tweet tweet = DBContext.Tweet.Where(ds => ds.ID == updatedTweet.MessageID).FirstOrDefault();
             tweet.Message = updatedTweet.Message;
             tweet.CreatedAt = System.DateTime.Now;
             DBContext.SaveChanges();
