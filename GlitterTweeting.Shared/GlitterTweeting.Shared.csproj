@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="DTO\Tweet\GetAllTweets.cs" />
+    <Compile Include="DTO\Tweet\NewTweet.cs" />
     <Compile Include="DTO\User\UserAuthDTO.cs" />
     <Compile Include="DTO\User\UserBasicDTO.cs" />
     <Compile Include="DTO\User\UserCompleteDTO.cs" />

@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business Objects\TweetBusinessContext.cs" />
     <Compile Include="Business Objects\UserBusinessContext.cs" />
     <Compile Include="Exceptions\AlreadyExistsException.cs" />
     <Compile Include="Exceptions\DoesNotExistsException.cs" />

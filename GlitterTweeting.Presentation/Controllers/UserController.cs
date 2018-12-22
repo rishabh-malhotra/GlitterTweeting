@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web;
 
 namespace GlitterTweeting.Presentation.Controllers
 {
@@ -45,6 +46,7 @@ namespace GlitterTweeting.Presentation.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [AllowAnonymous]
+        [Route("api/login")]
         public async Task<IHttpActionResult> Post([FromBody] UserLoginModel user)
         {
             try
@@ -62,7 +64,13 @@ namespace GlitterTweeting.Presentation.Controllers
                 }
                 UserLoginDTO useLoginDTO = UserMapper.Map<UserLoginModel, UserLoginDTO>(user);
                 UserCompleteDTO loginUser = await UserBusinessContext.LoginUserCheck(useLoginDTO);
-                return Ok(new { User = loginUser });
+                HttpContext.Current.Session["UserID"] = loginUser.ID;
+                HttpContext.Current.Session["FirstName"] = loginUser.FirstName;
+
+                var Id = HttpContext.Current.Session["UserID"];
+                var UserName = HttpContext.Current.Session["FirstName"];
+
+                return Ok(new { ID = Id, Username = UserName });
             }
             catch (Exception e)
             {
@@ -76,7 +84,7 @@ namespace GlitterTweeting.Presentation.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [Route("api/login")]
+        
         public async Task<IHttpActionResult> Post([FromBody] UserRegisterModel user)
         {
             try

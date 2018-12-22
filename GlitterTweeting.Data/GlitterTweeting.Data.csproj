@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DB Context\TweetDBContext.cs" />
     <Compile Include="DB Context\UserDBContext.cs" />
     <Compile Include="Follow.cs">
       <DependentUpon>GlitterTweetingDBModel.tt</DependentUpon>
