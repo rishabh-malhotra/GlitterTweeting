@@ -9,5 +9,6 @@ namespace GlitterTweeting.Presentation.Models
     {
         public string Email { get; set; }
         public string Image { get; set; }
+        public string UserName { get; set; }
     }
 }

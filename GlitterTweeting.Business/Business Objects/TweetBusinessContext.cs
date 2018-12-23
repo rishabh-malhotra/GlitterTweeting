@@ -41,5 +41,15 @@ namespace GlitterTweeting.Business.Business_Objects
             return true;
 
         }
+        public bool LikeTweet(Guid userid, Guid tweetid)
+        {
+            tweetDBContext.LikeTweet(userid, tweetid);
+            return true;
+        }
+        public bool DisLikeTweet(Guid userid, Guid tweetid)
+        {
+            tweetDBContext.DisLikeTweet(userid, tweetid);
+            return true;
+        }
     }
 }

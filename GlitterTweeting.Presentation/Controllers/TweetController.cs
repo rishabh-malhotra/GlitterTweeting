@@ -91,6 +91,33 @@ namespace GlitterTweeting.Presentation.Controllers
 
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("api/user/like")]
+        public bool Post()
+        {
+            //fetch tweetid from url and fetch user id from session
+            // string ass  = HttpContext.Current.Session["UserID"].ToString();            
+
+            Guid userid = Guid.Parse("84559e52-6ffd-4db7-a1eb-1ca25995cee0");
+            Guid tweetid = Guid.Parse("34052bc5-ebd5-4a07-8eb4-6824c38cd24b");
+            tweetBusinessContext.LikeTweet(userid, tweetid);
+            return true;
+        }
+        [AllowAnonymous]
+        [HttpDelete]
+        [Route("api/user/dislike")]
+        public bool Delete()
+        {
+            //fetch tweetid from url and fetch user id from session
+            // string ass  = HttpContext.Current.Session["UserID"].ToString();            
+
+            Guid userid = Guid.Parse("84559e52-6ffd-4db7-a1eb-1ca25995cee0");
+            Guid tweetid = Guid.Parse("34052bc5-ebd5-4a07-8eb4-6824c38cd24b");
+            tweetBusinessContext.DisLikeTweet(userid, tweetid);
+            return true;
+        }
+
 
     }
 }

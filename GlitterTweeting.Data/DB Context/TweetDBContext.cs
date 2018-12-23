@@ -53,8 +53,8 @@ namespace GlitterTweeting.Data.DB_Context
                 IList<GetAllTweetsDTO> tweetList = new List<GetAllTweetsDTO>();
                 GetAllTweetsDTO getAllTweets;
                 User user = DBContext.User.Where(ds => ds.ID == id).FirstOrDefault();
-                var author = user.FirstName + user.LastName;
-                IEnumerable<Tweet> tweet = DBContext.Tweet.Where(de => de.UserID == user.ID);
+                var author = user.FirstName +" " + user.LastName;
+                IEnumerable<Tweet> tweet = DBContext.Tweet.Where(de => de.UserID == user.ID).OrderByDescending(cd => cd.CreatedAt);
                 foreach (var item in tweet)
                 {
                     getAllTweets = new GetAllTweetsDTO();
@@ -88,6 +88,32 @@ namespace GlitterTweeting.Data.DB_Context
             DBContext.SaveChanges();
             // Tweet newTweet = tweetMapper.Map<NewTweetDTO, Tweet>(tweetInput);
 
+        }
+        public bool LikeTweet(Guid userid, Guid tweetid)
+        {
+            LikeTweet liketweet = DBContext.LikeTweet.Where(ds => ds.UserID == userid).FirstOrDefault();
+            if (liketweet != null)
+            {
+                return false;
+            }
+
+            else
+            {
+                liketweet.TweetID = tweetid;
+                liketweet.ID = System.Guid.NewGuid();
+                liketweet.UserID = userid;
+                DBContext.LikeTweet.Add(liketweet);
+                DBContext.SaveChanges();
+                return true;
+            }
+
+        }
+        public bool DisLikeTweet(Guid userid, Guid tweetid)
+        {
+            LikeTweet tweet = DBContext.LikeTweet.Where(ds => ds.UserID == userid).FirstOrDefault();
+            DBContext.LikeTweet.Remove(tweet);
+            DBContext.SaveChanges();
+            return true;
         }
 
         public void Dispose()
