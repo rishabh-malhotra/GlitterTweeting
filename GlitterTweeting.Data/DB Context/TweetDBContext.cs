@@ -64,7 +64,27 @@ namespace GlitterTweeting.Data.DB_Context
                     getAllTweets.UserName = author;
                     tweetList.Add(getAllTweets);
                 }
-                return tweetList;
+            IEnumerable<Follow> followers = DBContext.Follow.Where(de => de.Follower_UserID == id);
+
+            foreach (var iter in followers)
+            {
+                IEnumerable<Follow> followed = DBContext.Follow.Where(de => de.Followed_UserID == iter.Followed_UserID);
+                foreach (var iter2 in followed)
+                {
+                    IEnumerable<Tweet> msg = DBContext.Tweet.Where(df => df.UserID == iter2.Followed_UserID).OrderByDescending(cd => cd.CreatedAt);
+                    foreach (var iter1 in msg)
+                    {
+                        User us = DBContext.User.Where(re => re.ID == iter1.UserID).FirstOrDefault();
+                        getAllTweets = new GetAllTweetsDTO();
+                        getAllTweets.Message = iter1.Message;
+                        getAllTweets.CreatedAt = iter1.CreatedAt;
+                        getAllTweets.UserName = us.FirstName + us.LastName;
+                        tweetList.Add(getAllTweets);
+                    }
+                }
+
+            }
+            return tweetList;
             }
 
         public bool DeleteTweet(Guid uid, Guid tid)

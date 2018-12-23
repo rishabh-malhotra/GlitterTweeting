@@ -9,6 +9,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web;
+using GlitterTweeting.Data.DB_Context;
+using System.Collections.Generic;
 
 namespace GlitterTweeting.Presentation.Controllers
 {
@@ -60,6 +62,8 @@ namespace GlitterTweeting.Presentation.Controllers
                 }
                 UserLoginDTO useLoginDTO = UserMapper.Map<UserLoginModel, UserLoginDTO>(user);
                 UserCompleteDTO loginUser = await UserBusinessContext.LoginUserCheck(useLoginDTO);
+                //HttpContext.Current.Session["ProfileImage"] = loginUser.Image;
+                //var Image = HttpContext.Current.Session["ProfileImage"];
                 //HttpContext.Current.Session["UserID"] = loginUser.ID;
                 //HttpContext.Current.Session["FirstName"] = loginUser.FirstName;
                 //var Id = HttpContext.Current.Session["UserID"];
@@ -105,6 +109,53 @@ namespace GlitterTweeting.Presentation.Controllers
                 return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.Forbidden, JsonConvert.SerializeObject(e.Message)));
             }
         }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("api/user/follow")]
+        public bool Post()
+        {
+            //fetch user to follow's userid from url and fetch  loggedin user id from session
+            // string ass  = HttpContext.Current.Session["UserID"].ToString();            
+
+            Guid loggedinuserid = Guid.Parse("776a7b91-dac4-4546-957c-2298dd72812c");
+            Guid usertofollow = Guid.Parse("906c7730-6766-4bbc-8d29-1f7b13541728");
+            UserBusinessContext.Follow(loggedinuserid, usertofollow);
+            return true;
+        }
+
+
+        [AllowAnonymous]
+        [HttpDelete]
+        [Route("api/user/unfollow")]
+        public bool Delete()
+        {
+            //fetch tweetid from url and fetch user id from session
+            // string ass  = HttpContext.Current.Session["UserID"].ToString();            
+
+            Guid loggedinuserid = Guid.Parse("776a7b91-dac4-4546-957c-2298dd72812c");
+            Guid usertounfollow = Guid.Parse("cd52690b-cc07-45de-b0dd-7e0f2bd91ea8");
+            UserBusinessContext.UnFollow(loggedinuserid, usertounfollow);
+            return true;
+        }
+
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("api/user/followers")]
+        public IList<UserBasicDTO> Get()
+        {
+            // string ass = HttpContext.Current.Session["UserID"].ToString();
+            // Guid abc = Guid.Parse(ass);
+
+            //fetch the loggedin user id from session
+
+            Guid loggedinuserid = Guid.Parse("776a7b91-dac4-4546-957c-2298dd72812c");
+            IList<UserBasicDTO> gd = UserBusinessContext.GetAllFollowers(loggedinuserid);
+
+            return gd;
+        }
+
         /// <summary>
         /// Authorizes and returns basic info of the user with given ID.
         /// </summary>

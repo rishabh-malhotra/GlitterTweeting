@@ -87,13 +87,30 @@ namespace GlitterTweeting.Business.Business_Objects
             }
         }
 
+        public bool UnFollow(Guid loggedinuserid, Guid usertounfollow)
+        {
+            UserDBContext.UnFollow(loggedinuserid, usertounfollow);
+            return true;
+        }
+        public bool Follow(Guid loggedinuserid, Guid usertofollow)
+        {
+            UserDBContext.Follow(loggedinuserid, usertofollow);
+            return true;
+        }
+
+
+        public IList<UserBasicDTO> GetAllFollowers(Guid loggedinuserid)
+        {
+            IList<UserBasicDTO> gdto = UserDBContext.GetAllFollowers(loggedinuserid);
+            return gdto;
+        }
 
         /// <summary>
         /// Returns requested user
         /// </summary>
         /// <param name="id">ID of the requested user</param>
         /// <returns>Requested user information</returns>
-       
+
         /// <summary>
         /// Dispose to class
         /// </summary>
