@@ -38,6 +38,7 @@ namespace GlitterTweeting.Data.DB_Context
                 getAllUsers.LastName = item.LastName;
                 getAllUsers.FirstName = item.FirstName;
                 getAllUsers.Email = item.Email;
+                getAllUsers.UserId = item.ID;
                 resultList.Add(getAllUsers);
             }
             foreach (var item in tag)

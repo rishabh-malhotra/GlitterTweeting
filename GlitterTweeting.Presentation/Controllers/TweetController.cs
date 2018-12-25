@@ -97,14 +97,14 @@ namespace GlitterTweeting.Presentation.Controllers
         }
         [AllowAnonymous]
         [HttpDelete]
-        [Route("api/user/dislike")]
-        public bool Delete()
+        [Route("api/user/dislike//{UserID}/{TweetID}")]
+        public bool Delete(string UserID, string TweetID)
         {
             //fetch tweetid from url and fetch user id from session
             // string ass  = HttpContext.Current.Session["UserID"].ToString();            
 
-            Guid userid = Guid.Parse("84559e52-6ffd-4db7-a1eb-1ca25995cee0");
-            Guid tweetid = Guid.Parse("34052bc5-ebd5-4a07-8eb4-6824c38cd24b");
+            Guid userid =  Guid.Parse(UserID);
+            Guid tweetid = Guid.Parse(TweetID);
             tweetBusinessContext.DisLikeTweet(userid, tweetid);
             return true;
         }

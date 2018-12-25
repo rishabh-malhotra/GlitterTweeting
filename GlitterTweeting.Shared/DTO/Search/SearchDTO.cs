@@ -17,5 +17,6 @@ namespace GlitterTweeting.Shared.DTO.Search
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Guid TweetID { get; set; }
+        public Guid UserId { get; set; }
     }
 }

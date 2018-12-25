@@ -124,6 +124,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Tag_Tweet">
+          <End Role="Tweet" Type="Self.Tweet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tweet">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tag">
+              <PropertyRef Name="TweetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="test1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
           <Parameter Name="LastName" Type="nvarchar" Mode="In" />
@@ -162,6 +176,10 @@
           <AssociationSet Name="FK_dbo_Tweet_dbo_User_UserID" Association="Self.FK_dbo_Tweet_dbo_User_UserID">
             <End Role="User" EntitySet="User" />
             <End Role="Tweet" EntitySet="Tweet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tag_Tweet" Association="Self.FK_Tag_Tweet">
+            <End Role="Tweet" EntitySet="Tweet" />
+            <End Role="Tag" EntitySet="Tag" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
