@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GlitterTweeting.Business.Business_Objects;
 using GlitterTweeting.Presentation.Models;
+using GlitterTweeting.Shared.DTO.Search;
 using GlitterTweeting.Shared.DTO.User;
 using System;
 using System.Collections.Generic;
@@ -31,12 +32,13 @@ namespace GlitterTweeting.Presentation.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("api/user/searchUser")]
-        public IList<UserBasicDTO> Post([FromBody] AuthorModel am)
+        public IList<SearchDTO> Post([FromBody] SearchModel SearchString)
         {
-            UserBasicDTO DTO = mapper.Map<AuthorModel, UserBasicDTO>(am);
-            IList<UserBasicDTO> allusers = searchBusinessContext.SearchAllUsers(DTO);
+            SearchDTO Dto = new SearchDTO();
+            Dto.SearchString = SearchString.SearchString;
+            IList<SearchDTO> AllResults = searchBusinessContext.SearchAllUsers(Dto.SearchString);
 
-            return allusers;
+            return AllResults;
 
         }
         

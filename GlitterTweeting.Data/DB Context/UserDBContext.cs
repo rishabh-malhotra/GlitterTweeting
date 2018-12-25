@@ -128,9 +128,9 @@ namespace GlitterTweeting.Data.DB_Context
 
 
 
-        public bool UnFollow(Guid loggedinuserid, Guid usertounfollow)
+        public bool UnFollow(FollowDTO followdto)
         {
-            Follow unfollow = DBContext.Follow.Where(ds => ds.Followed_UserID == usertounfollow).FirstOrDefault();
+            Follow unfollow = DBContext.Follow.Where(ds => ds.Followed_UserID == followdto.UserToFollowID).FirstOrDefault();
             DBContext.Follow.Remove(unfollow);
             DBContext.SaveChanges();
             return true;
@@ -155,6 +155,7 @@ namespace GlitterTweeting.Data.DB_Context
 
                 user = DBContext.User.Where(dr => dr.ID == Followers.Followed_UserID).FirstOrDefault();
                 followers.Email = user.Email;
+                followers.ID = user.ID;
                 followers.FirstName = user.FirstName;
                 followers.LastName = user.LastName;
                 followers.Image = user.Image;
@@ -191,17 +192,13 @@ namespace GlitterTweeting.Data.DB_Context
             return followersList;
         }
 
-        public UserBasicDTO MostTweetsBy()
+        public string MostTweetsBy()
         {
 
             Guid maxid = DBContext.Tweet.GroupBy(x => x.UserID).OrderByDescending(x => x.Count()).First().Key;
             User t = DBContext.User.Where(ds => ds.ID == maxid).FirstOrDefault();
-            UserBasicDTO gdto = new UserBasicDTO();
-            // gdto.Email = t.Email;
-            gdto.FirstName = t.FirstName;
-            gdto.LastName = t.LastName;
-
-            return gdto;
+            
+            return t.FirstName + t.LastName;
         }
 
 

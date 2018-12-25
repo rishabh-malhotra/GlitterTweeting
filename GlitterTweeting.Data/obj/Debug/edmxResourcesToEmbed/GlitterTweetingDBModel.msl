@@ -22,6 +22,7 @@
     <EntitySetMapping Name="Tag">
       <EntityTypeMapping TypeName="glitterModel.Tag">
         <MappingFragment StoreEntitySet="Tag">
+          <ScalarProperty Name="SearchCount" ColumnName="SearchCount" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="TweetID" ColumnName="TweetID" />
           <ScalarProperty Name="TagName" ColumnName="TagName" />

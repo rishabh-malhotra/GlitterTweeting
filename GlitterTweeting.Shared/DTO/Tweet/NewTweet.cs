@@ -11,6 +11,7 @@ namespace GlitterTweeting.Shared.DTO.NewTweet
 
         public Guid UserID { get; set; }
         public string Message { get; set; }
+        public Guid TweetID { get; set; }
 
     }
 }

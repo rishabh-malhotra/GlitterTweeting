@@ -28,6 +28,7 @@
     <Property Name="TweetID" Type="Guid" Nullable="false" />
     <Property Name="TagName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="Tweet" Relationship="Self.FK_dbo_Tag_dbo_Tweet_TweetID" FromRole="Tag" ToRole="Tweet" />
+    <Property Name="SearchCount" Type="Int32" />
   </EntityType>
   <EntityType Name="Tweet">
     <Key>

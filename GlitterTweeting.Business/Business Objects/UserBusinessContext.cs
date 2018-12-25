@@ -88,9 +88,9 @@ namespace GlitterTweeting.Business.Business_Objects
             }
         }
 
-        public bool UnFollow(Guid loggedinuserid, Guid usertounfollow)
+        public bool UnFollow(FollowDTO followdto)
         {
-            UserDBContext.UnFollow(loggedinuserid, usertounfollow);
+            UserDBContext.UnFollow(followdto);
             return true;
         }
         public bool Follow(FollowDTO followdto)

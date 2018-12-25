@@ -236,6 +236,7 @@
     <Compile Include="Models\GetAllTweetsModel.cs" />
     <Compile Include="Models\LikeTweetModel.cs" />
     <Compile Include="Models\NewTweetModel.cs" />
+    <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Models\UserRegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

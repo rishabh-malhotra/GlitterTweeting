@@ -23,6 +23,7 @@
     <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="TweetID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="TagName" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="SearchCount" Type="int" />
   </EntityType>
   <EntityType Name="Tweet">
     <Key>

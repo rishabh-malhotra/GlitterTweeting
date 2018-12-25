@@ -14,5 +14,6 @@ namespace GlitterTweeting.Shared.DTO.User
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Count { get; set; }
+        public Guid ID { get; set; }
     }
 }

@@ -12,17 +12,24 @@ namespace GlitterTweeting.Business.Business_Objects
    public class TweetBusinessContext
     {
         private TweetDBContext tweetDBContext;
+        private TagBusinessContext tagBusinnessContext;
         /// <summary>
         /// Constructor, initializes DB context objects and automappers.
         /// </summary>
         public TweetBusinessContext()
         {
             tweetDBContext = new TweetDBContext();
+            tagBusinnessContext = new TagBusinessContext();
 
         }
         public async Task<NewTweetDTO> CreateNewTweet(NewTweetDTO tweetInput)
         {
             NewTweetDTO newtweetdto = await tweetDBContext.CreateNewTweet(tweetInput);
+            if (newtweetdto != null)
+            {
+
+                bool result = tagBusinnessContext.CreateNewTags(newtweetdto);
+            }
             return newtweetdto;
         }
         public IList<GetAllTweetsDTO> GetAllTweets(Guid id)
@@ -35,9 +42,9 @@ namespace GlitterTweeting.Business.Business_Objects
             return tweetDBContext.DeleteTweet(uid, tid);
         }
 
-        public bool UpdateTweet(EditTweetDTO updatedTweetDTO)
+        public bool UpdateTweet(NewTweetDTO newTweetDTO)
         {
-            tweetDBContext.UpdateTweet(updatedTweetDTO);
+            tweetDBContext.UpdateTweet(newTweetDTO);
             return true;
 
         }

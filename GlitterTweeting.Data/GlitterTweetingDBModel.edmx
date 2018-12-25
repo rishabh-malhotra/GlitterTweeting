@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="glitterModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="glitterModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Follow">
           <Key>
             <PropertyRef Name="ID" />
@@ -28,6 +28,7 @@
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TweetID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TagName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="SearchCount" Type="int" />
         </EntityType>
         <EntityType Name="Tweet">
           <Key>
@@ -163,8 +164,7 @@
             <End Role="Tweet" EntitySet="Tweet" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="glitterModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -196,6 +196,7 @@
           <Property Name="TweetID" Type="Guid" Nullable="false" />
           <Property Name="TagName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Tweet" Relationship="Self.FK_dbo_Tag_dbo_Tweet_TweetID" FromRole="Tag" ToRole="Tweet" />
+          <Property Name="SearchCount" Type="Int32" />
         </EntityType>
         <EntityType Name="Tweet">
           <Key>
@@ -365,6 +366,7 @@
           <EntitySetMapping Name="Tag">
             <EntityTypeMapping TypeName="glitterModel.Tag">
               <MappingFragment StoreEntitySet="Tag">
+                <ScalarProperty Name="SearchCount" ColumnName="SearchCount" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="TweetID" ColumnName="TweetID" />
                 <ScalarProperty Name="TagName" ColumnName="TagName" />

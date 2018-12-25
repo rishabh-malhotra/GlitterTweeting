@@ -52,41 +52,35 @@ namespace GlitterTweeting.Presentation.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("api/user/playground")]
-        public IList<GetAllTweetsDTO> Post([FromBody]  FetchUserId id )
+        [Route("api/user/playground//{userId}")]
+        public IList<GetAllTweetsDTO> Post(string userId )
        {
-            //new Guid(Session["UserID"]);
-            //var Id = ;
-            //string id1 = Id.ToString();
-
-            //string userid = HttpContext.Current.Session["UserID"].ToString();
-            Guid userId = Guid.Parse(id.UserId);
-            //Guid userId = new Guid(HttpContext.Current.Session["UserID"].ToString());
-            IList<GetAllTweetsDTO> gd = tweetBusinessContext.GetAllTweets(userId);
+            Guid userid = Guid.Parse(userId);
+            IList<GetAllTweetsDTO> gd = tweetBusinessContext.GetAllTweets(userid);
             return gd;
         }
 
+        [AllowAnonymous]
         [HttpDelete]
-        //   [Route("api/user/{UserId}/{tweetid}")]
-        [Route("api/user/deletetweet")]
-        public bool Delete([FromBody]DeleteTweetModel deleteTweetModel)
+        [Route("api/user/deletetweet/{UserID}/{TweetID}")]
+        public bool Delet(string UserID, string TweetID)
         {
 
-            Guid uid = Guid.Parse(deleteTweetModel.UserID);
-            Guid tid = Guid.Parse(deleteTweetModel.MessageID);
+            Guid uid = Guid.Parse(UserID);
+            Guid tid = Guid.Parse(TweetID);
 
             return tweetBusinessContext.DeleteTweet(uid, tid);
         }
         [HttpPut]
         [Route("api/user/updatetweet")]
-        public bool Put([FromBody] EditTweetModel updatedTweet)
+        public bool Put([FromBody] NewTweetModel model)
         {
-            
-            EditTweetDTO editTweetDTO = new EditTweetDTO();
-            editTweetDTO.Message = updatedTweet.Message;
-            editTweetDTO.MessageID= Guid.Parse(updatedTweet.MessageID);
-            editTweetDTO.UserID= Guid.Parse(updatedTweet.UserID);
-            return tweetBusinessContext.UpdateTweet(editTweetDTO);
+
+            NewTweetDTO dto = new NewTweetDTO();
+            dto.UserID = Guid.Parse(model.UserID);
+            dto.TweetID = model.TweetID;
+            dto.Message = model.Message;
+            return tweetBusinessContext.UpdateTweet(dto);
 
         }
 

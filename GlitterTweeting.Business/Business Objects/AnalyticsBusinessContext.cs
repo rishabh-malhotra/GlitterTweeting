@@ -19,17 +19,12 @@ namespace GlitterTweeting.Business.Business_Objects
         public AnalyticsDTO Analytic()
         {
             AnalyticsDTO bonus = new AnalyticsDTO();
-            //  bonus.MostTrending = MostTrending();
-            //bonus.MostLiked = tbc.MostLiked();
-            //    bonus.MostTweetsBy = ubc.MostTweetsBy();
+            bonus.MostTrending = tbc.MostTrending();
+            bonus.MostLiked = tbc.MostLiked();
+            bonus.MostTweetsBy = ubc.MostTweetsBy();
             bonus.TotalTweetsToday = tbc.TotalTweetsToday();
             return bonus;
         }
 
-        //private string MostTrending()
-        //{
-        //    hashTag = new HashTags();
-        //    return (hashTag.MostTrending());
-        //}
     }
 }

@@ -38,7 +38,7 @@ namespace GlitterTweeting.Data.DB_Context
 
             public async Task<NewTweetDTO> CreateNewTweet(NewTweetDTO tweetInput)
             {
-                // Tweet newTweet = tweetMapper.Map<NewTweetDTO, Tweet>(tweetInput);
+                
                 Tweet newTweet = new Tweet();
                 newTweet.ID = System.Guid.NewGuid();
                 newTweet.Message = tweetInput.Message;
@@ -46,10 +46,27 @@ namespace GlitterTweeting.Data.DB_Context
                 newTweet.CreatedAt = System.DateTime.Now;
                 DBContext.Tweet.Add(newTweet);
                 await DBContext.SaveChangesAsync();
-                // NewTweetDTO newTweets = TweetMapper.Map<Tweet, NewTweetDTO>(newTweet);
+                tweetInput.TweetID = newTweet.ID;
+            
                 return tweetInput;
             }
-            public IList<GetAllTweetsDTO> GetAllTweets(Guid id)
+
+        public bool updateSearchCount(Tag item)
+        {
+            Tag updateTag = DBContext.Tag.Where(dr => dr.ID == item.ID).FirstOrDefault();
+            if (updateTag.SearchCount == null)
+            {
+                updateTag.SearchCount = 1;
+            }
+            else
+            {
+                updateTag.SearchCount = updateTag.SearchCount + 1;
+            }
+            DBContext.SaveChanges();
+            return true;
+        }
+
+        public IList<GetAllTweetsDTO> GetAllTweets(Guid id)
             {
                 IList<GetAllTweetsDTO> tweetList = new List<GetAllTweetsDTO>();
                 GetAllTweetsDTO getAllTweets;
@@ -62,6 +79,7 @@ namespace GlitterTweeting.Data.DB_Context
                     getAllTweets.MessageId = item.ID;
                     getAllTweets.Message = item.Message;
                     getAllTweets.CreatedAt = item.CreatedAt;
+                    getAllTweets.TweetID = item.ID;
                     getAllTweets.UserName = author;
                     tweetList.Add(getAllTweets);
                 }
@@ -79,6 +97,7 @@ namespace GlitterTweeting.Data.DB_Context
                         getAllTweets = new GetAllTweetsDTO();
                         getAllTweets.Message = iter1.Message;
                         getAllTweets.CreatedAt = iter1.CreatedAt;
+                        getAllTweets.TweetID = iter1.ID;
                         getAllTweets.UserName = us.FirstName + us.LastName;
                         tweetList.Add(getAllTweets);
                     }
@@ -94,16 +113,17 @@ namespace GlitterTweeting.Data.DB_Context
             User user = DBContext.User.Where(dr => dr.ID == uid).FirstOrDefault();
             if (user.ID == tweet.UserID)
             {
-                DBContext.Tweet.Remove(tweet);
+                // DBContext.Tweet.DeleteObject(tweet);
+                DBContext.Entry(tweet).State = EntityState.Deleted;
                 DBContext.SaveChanges();
                 return true;
             }
             else { return false; }
         }
 
-        public void UpdateTweet(EditTweetDTO updatedTweet)
+        public void UpdateTweet(NewTweetDTO updatedTweet)
         {
-            Tweet tweet = DBContext.Tweet.Where(ds => ds.ID == updatedTweet.MessageID).FirstOrDefault();
+            Tweet tweet = DBContext.Tweet.Where(ds => ds.ID == updatedTweet.TweetID).FirstOrDefault();
             tweet.Message = updatedTweet.Message;
             tweet.CreatedAt = System.DateTime.Now;
             DBContext.SaveChanges();
@@ -138,16 +158,12 @@ namespace GlitterTweeting.Data.DB_Context
             DBContext.SaveChanges();
             return true;
         }
-        public GetAllTweetsDTO MostLiked()
+        public string MostLiked()
         {
 
             Guid maxid = DBContext.LikeTweet.GroupBy(x => x.TweetID).OrderByDescending(x => x.Count()).First().Key;
             Tweet t = DBContext.Tweet.Where(ds => ds.ID == maxid).FirstOrDefault();
-            GetAllTweetsDTO gdto = new GetAllTweetsDTO();
-            gdto.CreatedAt = t.CreatedAt;
-            gdto.Message = t.Message;
-
-            return gdto;
+            return t.Message;
         }
 
         public int TotalTweetsToday()
@@ -159,7 +175,13 @@ namespace GlitterTweeting.Data.DB_Context
             return count;
         }
 
-        public void Dispose()
+        public string MostTrending()
+        {
+            IEnumerable<Tag> tagbyName = DBContext.Tag.OrderByDescending(re => re.SearchCount).ThenByDescending(re => re.TagName);
+            return tagbyName.ElementAt(0).TagName;
+        }
+
+            public void Dispose()
             {
                 throw new NotImplementedException();
             }

@@ -129,16 +129,14 @@ namespace GlitterTweeting.Presentation.Controllers
 
 
         [AllowAnonymous]
-        [HttpDelete]
+        [HttpPost]
         [Route("api/user/unfollow")]
-        public bool Delete()
+        public bool Unfollow(FollowModel followModel)
         {
-            //fetch tweetid from url and fetch user id from session
-            // string ass  = HttpContext.Current.Session["UserID"].ToString();            
-
-            Guid loggedinuserid = Guid.Parse("776a7b91-dac4-4546-957c-2298dd72812c");
-            Guid usertounfollow = Guid.Parse("cd52690b-cc07-45de-b0dd-7e0f2bd91ea8");
-            UserBusinessContext.UnFollow(loggedinuserid, usertounfollow);
+            FollowDTO followdto = new FollowDTO();
+            followdto.UserID = Guid.Parse(followModel.UserID);
+            followdto.UserToFollowID = Guid.Parse(followModel.UserToFollowID);
+            UserBusinessContext.UnFollow(followdto);
             return true;
         }
 

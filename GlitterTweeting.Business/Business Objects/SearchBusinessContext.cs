@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GlitterTweeting.Shared.DTO.Search;
 
 namespace GlitterTweeting.Business.Business_Objects
 {
@@ -15,10 +16,10 @@ namespace GlitterTweeting.Business.Business_Objects
         {
             searchDBContext = new SearchDBContext();
         }
-        public IList<UserBasicDTO> SearchAllUsers(UserBasicDTO username)
+        public IList<SearchDTO> SearchAllUsers(string searchString)
         {
-            IList<UserBasicDTO> getAllUsers = searchDBContext.GetAllUsers(username);
-            return getAllUsers;
+            IList<SearchDTO> getAllResults = searchDBContext.GetAllUsers(searchString);
+            return getAllResults;
         }
 
     }

@@ -12,7 +12,7 @@ namespace GlitterTweeting.Shared.DTO
     {
         public string MostTrending { get; set; }
         public int TotalTweetsToday { get; set; }
-        public UserBasicDTO MostTweetsBy { get; set; }
-        public GetAllTweetsDTO MostLiked { get; set; }
+        public string MostTweetsBy { get; set; }
+        public string MostLiked { get; set; }
     }
 }

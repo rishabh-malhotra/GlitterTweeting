@@ -17,6 +17,7 @@ namespace GlitterTweeting.Data
         public System.Guid ID { get; set; }
         public System.Guid TweetID { get; set; }
         public string TagName { get; set; }
+        public Nullable<int> SearchCount { get; set; }
     
         public virtual Tweet Tweet { get; set; }
     }

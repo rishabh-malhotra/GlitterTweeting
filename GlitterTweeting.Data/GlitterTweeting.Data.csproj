@@ -85,6 +85,7 @@
     <Compile Include="Tag.cs">
       <DependentUpon>GlitterTweetingDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DB Context\TagDBContext.cs" />
     <Compile Include="Tweet.cs">
       <DependentUpon>GlitterTweetingDBModel.tt</DependentUpon>
     </Compile>
