@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GlitterTweeting.Shared.DTO.Relationship;
 using GlitterTweeting.Shared.DTO.User;
 using System;
 using System.Collections.Generic;
@@ -135,7 +136,10 @@ namespace GlitterTweeting.Data.DB_Context
             return true;
         }
 
-        public IList<UserBasicDTO> GetAllFollowers(Guid userloggedinid)
+       
+
+
+            public IList<UserBasicDTO> GetAllFollowing(Guid userloggedinid)
         {
             IList<UserBasicDTO> followersList = new List<UserBasicDTO>();
             UserBasicDTO followers;
@@ -161,23 +165,70 @@ namespace GlitterTweeting.Data.DB_Context
             return followersList;
         }
 
-        public bool Follow(Guid loggedinuserid, Guid usertofollow)
+        public IList<UserBasicDTO> GetAllFollowers(Guid userloggedinid)
         {
-            Follow follow1 = DBContext.Follow.Where(ds => ds.Followed_UserID == usertofollow).FirstOrDefault();
-            if (follow1 != null)
+            IList<UserBasicDTO> followersList = new List<UserBasicDTO>();
+            UserBasicDTO followers;
+            User user;
+            IEnumerable<Follow> followeduser = DBContext.Follow.Where(ds => ds.Followed_UserID == userloggedinid);
+
+            var i = 0;
+            foreach (var item in followeduser)
+            {
+                followers = new UserBasicDTO();
+                user = new User();
+                Follow Followers = DBContext.Follow.Where(de => de.Follower_UserID == item.Follower_UserID).FirstOrDefault();
+
+                user = DBContext.User.Where(dr => dr.ID == Followers.Follower_UserID).FirstOrDefault();
+                followers.Email = user.Email;
+                followers.FirstName = user.FirstName;
+                followers.LastName = user.LastName;
+                followers.Image = user.Image;
+                followers.Count = i + 1;
+                followersList.Add(followers);
+                i++;
+            }
+            return followersList;
+        }
+
+        public UserBasicDTO MostTweetsBy()
+        {
+
+            Guid maxid = DBContext.Tweet.GroupBy(x => x.UserID).OrderByDescending(x => x.Count()).First().Key;
+            User t = DBContext.User.Where(ds => ds.ID == maxid).FirstOrDefault();
+            UserBasicDTO gdto = new UserBasicDTO();
+            // gdto.Email = t.Email;
+            gdto.FirstName = t.FirstName;
+            gdto.LastName = t.LastName;
+
+            return gdto;
+        }
+
+
+        public bool Follow(FollowDTO followdto)
+        {
+            Follow follow1 = DBContext.Follow.Where(ds => ds.Followed_UserID == followdto.UserToFollowID).FirstOrDefault();
+            if (follow1 != null && follow1.Follower_UserID == followdto.UserID)
             {
                 return false;
             }
 
             else
             {
-                Follow follow = new Follow();
-                follow.ID = System.Guid.NewGuid();
-                follow.Follower_UserID = loggedinuserid;
-                follow.Followed_UserID = usertofollow;
-                DBContext.Follow.Add(follow);
-                DBContext.SaveChanges();
-                return true;
+                try
+                {
+                    Follow follow = new Follow();
+                    follow.ID = System.Guid.NewGuid();
+                    follow.Follower_UserID = followdto.UserID;
+                    follow.Followed_UserID = followdto.UserToFollowID;
+                    DBContext.Follow.Add(follow);
+                    DBContext.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
             }
         }
 

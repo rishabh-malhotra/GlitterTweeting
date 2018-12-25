@@ -3,6 +3,7 @@ using GlitterTweeting.Shared.DTO.NewTweet;
 using GlitterTweeting.Shared.DTO.Tweet;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -109,19 +110,21 @@ namespace GlitterTweeting.Data.DB_Context
             // Tweet newTweet = tweetMapper.Map<NewTweetDTO, Tweet>(tweetInput);
 
         }
-        public bool LikeTweet(Guid userid, Guid tweetid)
+        public bool LikeTweet(LikeTweetDTO liketweetdto)
         {
-            LikeTweet liketweet = DBContext.LikeTweet.Where(ds => ds.UserID == userid).FirstOrDefault();
-            if (liketweet != null)
+            LikeTweet liketweet1 = DBContext.LikeTweet.Where(ds => ds.UserID == liketweetdto.LoggedInUserID).FirstOrDefault();
+            if (liketweet1 != null)
             {
                 return false;
             }
 
             else
             {
-                liketweet.TweetID = tweetid;
+                LikeTweet liketweet = new LikeTweet();
+               
                 liketweet.ID = System.Guid.NewGuid();
-                liketweet.UserID = userid;
+                liketweet.TweetID = liketweetdto.TweetID;
+                liketweet.UserID = liketweetdto.LoggedInUserID;
                 DBContext.LikeTweet.Add(liketweet);
                 DBContext.SaveChanges();
                 return true;
@@ -134,6 +137,26 @@ namespace GlitterTweeting.Data.DB_Context
             DBContext.LikeTweet.Remove(tweet);
             DBContext.SaveChanges();
             return true;
+        }
+        public GetAllTweetsDTO MostLiked()
+        {
+
+            Guid maxid = DBContext.LikeTweet.GroupBy(x => x.TweetID).OrderByDescending(x => x.Count()).First().Key;
+            Tweet t = DBContext.Tweet.Where(ds => ds.ID == maxid).FirstOrDefault();
+            GetAllTweetsDTO gdto = new GetAllTweetsDTO();
+            gdto.CreatedAt = t.CreatedAt;
+            gdto.Message = t.Message;
+
+            return gdto;
+        }
+
+        public int TotalTweetsToday()
+        {
+            DateTime sysDate = DateTime.Today;
+            int count = DBContext.Tweet.Count(i => DbFunctions.TruncateTime(i.CreatedAt) == System.DateTime.Today);
+
+            // int count = DBContext.Tweet.Where(x => DbFuntions.TruncateTime(x.CreatedAt) == DateTime.Today).Count();
+            return count;
         }
 
         public void Dispose()

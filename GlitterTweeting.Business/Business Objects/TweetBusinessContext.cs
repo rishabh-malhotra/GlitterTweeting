@@ -41,9 +41,9 @@ namespace GlitterTweeting.Business.Business_Objects
             return true;
 
         }
-        public bool LikeTweet(Guid userid, Guid tweetid)
+        public bool LikeTweet(LikeTweetDTO like)
         {
-            tweetDBContext.LikeTweet(userid, tweetid);
+            tweetDBContext.LikeTweet(like);
             return true;
         }
         public bool DisLikeTweet(Guid userid, Guid tweetid)

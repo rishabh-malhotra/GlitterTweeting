@@ -11,6 +11,7 @@ using System.Web.Http;
 using System.Web;
 using GlitterTweeting.Data.DB_Context;
 using System.Collections.Generic;
+using GlitterTweeting.Shared.DTO.Relationship;
 
 namespace GlitterTweeting.Presentation.Controllers
 {
@@ -113,15 +114,17 @@ namespace GlitterTweeting.Presentation.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("api/user/follow")]
-        public bool Post()
+        public bool Post(FollowModel followModel)
         {
             //fetch user to follow's userid from url and fetch  loggedin user id from session
             // string ass  = HttpContext.Current.Session["UserID"].ToString();            
 
-            Guid loggedinuserid = Guid.Parse("776a7b91-dac4-4546-957c-2298dd72812c");
-            Guid usertofollow = Guid.Parse("906c7730-6766-4bbc-8d29-1f7b13541728");
-            UserBusinessContext.Follow(loggedinuserid, usertofollow);
-            return true;
+            FollowDTO followdto = new FollowDTO();
+            followdto.UserID = Guid.Parse(followModel.UserID);
+            followdto.UserToFollowID = Guid.Parse(followModel.UserToFollowID);
+            bool result = UserBusinessContext.Follow(followdto);
+            return result;
+            
         }
 
 
@@ -142,16 +145,21 @@ namespace GlitterTweeting.Presentation.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("api/user/followers")]
-        public IList<UserBasicDTO> Get()
+        [Route("api/user/followers/{userId}")]
+        public IList<UserBasicDTO> Get(string userId)
         {
-            // string ass = HttpContext.Current.Session["UserID"].ToString();
-            // Guid abc = Guid.Parse(ass);
-
-            //fetch the loggedin user id from session
-
-            Guid loggedinuserid = Guid.Parse("776a7b91-dac4-4546-957c-2298dd72812c");
+           
+            Guid loggedinuserid = Guid.Parse(userId);
             IList<UserBasicDTO> gd = UserBusinessContext.GetAllFollowers(loggedinuserid);
+
+            return gd;
+        }
+
+        [Route("api/user/following/{userId}")]
+        public IList<UserBasicDTO> Following(string userId)
+        {
+            Guid loggedinuserid = Guid.Parse(userId);
+            IList<UserBasicDTO> gd = UserBusinessContext.GetAllFollowing(loggedinuserid);
 
             return gd;
         }

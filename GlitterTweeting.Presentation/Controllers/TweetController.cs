@@ -39,8 +39,7 @@ namespace GlitterTweeting.Presentation.Controllers
             try
             {
                 NewTweetDTO newTweetDTO = new NewTweetDTO();
-                Guid id = Guid.Parse(newTweetModel.UserID);
-                newTweetDTO.UserID = id;
+                newTweetDTO.UserID = Guid.Parse(newTweetModel.UserID);
                 newTweetDTO.Message = newTweetModel.Message;
                 newTweetDTO = await tweetBusinessContext.CreateNewTweet(newTweetDTO);
                 return Ok(new { Tweet = newTweetDTO });
@@ -94,14 +93,12 @@ namespace GlitterTweeting.Presentation.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("api/user/like")]
-        public bool Post()
+        public bool Post(LikeTweetModel likeTweetModel)
         {
-            //fetch tweetid from url and fetch user id from session
-            // string ass  = HttpContext.Current.Session["UserID"].ToString();            
-
-            Guid userid = Guid.Parse("84559e52-6ffd-4db7-a1eb-1ca25995cee0");
-            Guid tweetid = Guid.Parse("34052bc5-ebd5-4a07-8eb4-6824c38cd24b");
-            tweetBusinessContext.LikeTweet(userid, tweetid);
+            LikeTweetDTO liketweetdto = new LikeTweetDTO();
+            liketweetdto.LoggedInUserID = Guid.Parse(likeTweetModel.LoggedInUserID);
+            liketweetdto.TweetID = Guid.Parse(likeTweetModel.TweetID);
+            tweetBusinessContext.LikeTweet(liketweetdto);
             return true;
         }
         [AllowAnonymous]

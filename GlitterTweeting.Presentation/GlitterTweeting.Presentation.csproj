@@ -218,6 +218,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="AuthorizeAttribute.cs" />
+    <Compile Include="Controllers\AnalyticsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\TweetController.cs" />
@@ -231,7 +232,9 @@
     <Compile Include="Models\DeleteTweetModel.cs" />
     <Compile Include="Models\EditTweetModel.cs" />
     <Compile Include="Models\FetchUserId.cs" />
+    <Compile Include="Models\FollowModel.cs" />
     <Compile Include="Models\GetAllTweetsModel.cs" />
+    <Compile Include="Models\LikeTweetModel.cs" />
     <Compile Include="Models\NewTweetModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Models\UserRegisterModel.cs" />

@@ -55,9 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="DTO\AnalyticsDTO.cs" />
+    <Compile Include="DTO\Relationship\FollowDTO.cs" />
     <Compile Include="DTO\Tweet\DeleteTweetDTO.cs" />
     <Compile Include="DTO\Tweet\EditTweetDTO.cs" />
     <Compile Include="DTO\Tweet\GetAllTweets.cs" />
+    <Compile Include="DTO\Tweet\LikeTweetDTO.cs" />
     <Compile Include="DTO\Tweet\NewTweet.cs" />
     <Compile Include="DTO\User\UserAuthDTO.cs" />
     <Compile Include="DTO\User\UserBasicDTO.cs" />
