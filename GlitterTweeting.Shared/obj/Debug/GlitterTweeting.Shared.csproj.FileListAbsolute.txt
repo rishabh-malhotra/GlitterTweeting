@@ -14,3 +14,4 @@ C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\EntityFramework.xml
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Shared\obj\Debug\GlitterTweeting.Shared.csprojAssemblyReference.cache

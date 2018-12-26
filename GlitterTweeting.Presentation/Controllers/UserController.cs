@@ -153,6 +153,7 @@ namespace GlitterTweeting.Presentation.Controllers
             return gd;
         }
 
+        [HttpGet]
         [Route("api/user/following/{userId}")]
         public IList<UserBasicDTO> Following(string userId)
         {

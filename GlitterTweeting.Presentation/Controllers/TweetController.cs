@@ -51,9 +51,9 @@ namespace GlitterTweeting.Presentation.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost]
-        [Route("api/user/playground//{userId}")]
-        public IList<GetAllTweetsDTO> Post(string userId )
+        [HttpGet]
+        [Route("api/user/playground/{userId}")]
+        public IList<GetAllTweetsDTO> Get(string userId )
        {
             Guid userid = Guid.Parse(userId);
             IList<GetAllTweetsDTO> gd = tweetBusinessContext.GetAllTweets(userid);
@@ -97,7 +97,7 @@ namespace GlitterTweeting.Presentation.Controllers
         }
         [AllowAnonymous]
         [HttpDelete]
-        [Route("api/user/dislike//{UserID}/{TweetID}")]
+        [Route("api/user/dislike/{UserID}/{TweetID}")]
         public bool Delete(string UserID, string TweetID)
         {
             //fetch tweetid from url and fetch user id from session
