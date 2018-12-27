@@ -21,6 +21,11 @@ namespace GlitterTweeting.Business.Business_Objects
             IList<SearchDTO> getAllResults = searchDBContext.GetAllUsers(searchString);
             return getAllResults;
         }
+        public IList<SearchDTO> SearchAllHashTag(string searchString)
+        {
+            IList<SearchDTO> getAllResults = searchDBContext.GetAllHashTag(searchString);
+            return getAllResults;
+        }
 
     }
 }

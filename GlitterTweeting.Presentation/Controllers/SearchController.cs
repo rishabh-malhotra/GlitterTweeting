@@ -41,6 +41,17 @@ namespace GlitterTweeting.Presentation.Controllers
             return AllResults;
 
         }
-        
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("api/user/searchHashTag")]
+        public IList<SearchDTO> Search([FromBody] SearchModel SearchString)
+        {
+            SearchDTO Dto = new SearchDTO();
+            Dto.SearchString = SearchString.SearchString;
+            IList<SearchDTO> AllResults = searchBusinessContext.SearchAllHashTag(Dto.SearchString);
+            return AllResults;
+        }
+
     }
 }

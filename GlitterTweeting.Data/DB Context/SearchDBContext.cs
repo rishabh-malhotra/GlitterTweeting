@@ -25,12 +25,12 @@ namespace GlitterTweeting.Data.DB_Context
             userMapper = new Mapper(config);
         }
 
-        public IList<SearchDTO> GetAllUsers(string searchString) {
+        public IList<SearchDTO> GetAllUsers(string searchString)
+        {
             IList<User> user = DBContext.User.Where(ds => ds.FirstName.Contains(searchString) || ds.LastName.Contains(searchString)).ToList();
             IList<Tag> tag = DBContext.Tag.Where(de => de.TagName.Contains(searchString)).ToList();
             IList<SearchDTO> resultList = new List<SearchDTO>();
             SearchDTO getAllUsers;
-            SearchDTO getAllTags;
             foreach (var item in user)
             {
                 getAllUsers = new SearchDTO();
@@ -41,6 +41,17 @@ namespace GlitterTweeting.Data.DB_Context
                 getAllUsers.UserId = item.ID;
                 resultList.Add(getAllUsers);
             }
+            
+            return resultList;
+        }
+
+        public IList<SearchDTO> GetAllHashTag(string searchString)
+        {
+            IList<Tag> tag = DBContext.Tag.Where(de => de.TagName.Contains(searchString)).ToList();
+            IList<SearchDTO> resultList = new List<SearchDTO>();
+
+            SearchDTO getAllTags;
+
             foreach (var item in tag)
             {
                 getAllTags = new SearchDTO();
