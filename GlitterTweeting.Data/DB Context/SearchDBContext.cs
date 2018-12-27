@@ -25,14 +25,14 @@ namespace GlitterTweeting.Data.DB_Context
             userMapper = new Mapper(config);
         }
 
-        public IList<SearchDTO> GetAllUsers(string searchString)
+        public IList<SearchDTO> GetAllUsers(string searchString,Guid UserId)
         {
             if (searchString != null)
             {
 
                 IList<SearchDTO> resultList = new List<SearchDTO>();
                 SearchDTO getAllUsers;
-                IList<User> user = DBContext.User.Where(ds => ds.FirstName.Contains(searchString) || ds.LastName.Contains(searchString)).ToList();
+                IList<User> user = DBContext.User.Where(ds => (ds.FirstName.Contains(searchString) || ds.LastName.Contains(searchString)) && (ds.ID!=UserId )).ToList();
                 if (user.Count > 0)
                 {
                     foreach (var item in user)
@@ -43,6 +43,14 @@ namespace GlitterTweeting.Data.DB_Context
                         getAllUsers.FirstName = item.FirstName;
                         getAllUsers.Email = item.Email;
                         getAllUsers.UserId = item.ID;
+                        Follow f = DBContext.Follow.Where(fo => (fo.Follower_UserID == UserId) && (fo.Followed_UserID == getAllUsers.UserId)).FirstOrDefault();
+                        if (f != null)
+                        {
+                            getAllUsers.isFollowed =true;
+                        }
+                        else
+                            getAllUsers.isFollowed =false;
+
                         resultList.Add(getAllUsers);
                     }
 
@@ -56,7 +64,7 @@ namespace GlitterTweeting.Data.DB_Context
             else return null;
             }
 
-        public IList<SearchDTO> GetAllHashTag(string searchString)
+        public IList<SearchDTO> GetAllHashTag(string searchString,Guid userId)
         {
             if (searchString != null)
             {
@@ -77,6 +85,7 @@ namespace GlitterTweeting.Data.DB_Context
                             getAllTags.Message = item1.Message;
                             getAllTags.CreatedAt = item1.CreatedAt;
                             getAllTags.UserName = user1.FirstName + user1.LastName;
+                            
                         }
                         resultList.Add(getAllTags);
                     }

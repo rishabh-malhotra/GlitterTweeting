@@ -8,6 +8,7 @@ namespace GlitterTweeting.Shared.DTO.Search
 {
     public class SearchDTO
     {
+
         public string SearchString { get; set; }
         public string Message { get; set; }
         public string UserName { get; set; }
@@ -18,5 +19,9 @@ namespace GlitterTweeting.Shared.DTO.Search
         public string LastName { get; set; }
         public Guid TweetID { get; set; }
         public Guid UserId { get; set; }
+        public bool isLiked { get; set; }
+        public bool isAuthor { get; set; }
+        public bool isFollowed { get; set; }
+        public Guid UserID { get; set; }
     }
 }

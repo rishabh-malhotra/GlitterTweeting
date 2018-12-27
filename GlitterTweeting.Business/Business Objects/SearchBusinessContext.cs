@@ -16,9 +16,9 @@ namespace GlitterTweeting.Business.Business_Objects
         {
             searchDBContext = new SearchDBContext();
         }
-        public IList<SearchDTO> SearchAllUsers(string searchString)
+        public IList<SearchDTO> SearchAllUsers(string searchString,Guid UserId)
         {
-            IList<SearchDTO> getAllResults = searchDBContext.GetAllUsers(searchString);
+            IList<SearchDTO> getAllResults = searchDBContext.GetAllUsers(searchString,UserId);
             if (getAllResults != null)
             {
                 return getAllResults;
@@ -29,9 +29,9 @@ namespace GlitterTweeting.Business.Business_Objects
             }
 
         }
-        public IList<SearchDTO> SearchAllHashTag(string searchString)
+        public IList<SearchDTO> SearchAllHashTag(string searchString,Guid UserId)
         {
-            IList<SearchDTO> getAllResults = searchDBContext.GetAllHashTag(searchString);
+            IList<SearchDTO> getAllResults = searchDBContext.GetAllHashTag(searchString,UserId);
             if (getAllResults != null)
             {
                 return getAllResults;

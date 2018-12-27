@@ -34,9 +34,11 @@ namespace GlitterTweeting.Presentation.Controllers
         [Route("api/user/searchUser")]
         public IList<SearchDTO> Post([FromBody] SearchModel SearchString)
             {
+
             SearchDTO Dto = new SearchDTO();
+            Dto.UserID = Guid.Parse(SearchString.UserID);
             Dto.SearchString = SearchString.SearchString;
-            IList<SearchDTO> AllResults = searchBusinessContext.SearchAllUsers(Dto.SearchString);
+            IList<SearchDTO> AllResults = searchBusinessContext.SearchAllUsers(Dto.SearchString,Dto.UserID);
 
             return AllResults;
 
@@ -48,8 +50,9 @@ namespace GlitterTweeting.Presentation.Controllers
         public IList<SearchDTO> Search([FromBody] SearchModel SearchString)
         {
             SearchDTO Dto = new SearchDTO();
+            Dto.UserID = Guid.Parse(SearchString.UserID);
             Dto.SearchString = SearchString.SearchString;
-            IList<SearchDTO> AllResults = searchBusinessContext.SearchAllHashTag(Dto.SearchString);
+            IList<SearchDTO> AllResults = searchBusinessContext.SearchAllHashTag(Dto.SearchString,Dto.UserID);
             return AllResults;
         }
 
