@@ -69,6 +69,7 @@
     <Compile Include="Exceptions\AlreadyExistsException.cs" />
     <Compile Include="Exceptions\DoesNotExistsException.cs" />
     <Compile Include="Exceptions\InvalidCredentialsException.cs" />
+    <Compile Include="Exceptions\ResultIsNullException.cs" />
     <Compile Include="PasswordHasher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -19,12 +19,27 @@ namespace GlitterTweeting.Business.Business_Objects
         public IList<SearchDTO> SearchAllUsers(string searchString)
         {
             IList<SearchDTO> getAllResults = searchDBContext.GetAllUsers(searchString);
-            return getAllResults;
+            if (getAllResults != null)
+            {
+                return getAllResults;
+            }
+            else
+            {
+                throw new Exceptions.ResultIsNullException("No item Exists matching your search criteria");
+            }
+
         }
         public IList<SearchDTO> SearchAllHashTag(string searchString)
         {
             IList<SearchDTO> getAllResults = searchDBContext.GetAllHashTag(searchString);
-            return getAllResults;
+            if (getAllResults != null)
+            {
+                return getAllResults;
+            }
+            else
+            {
+                throw new Exceptions.ResultIsNullException("No item Exists matching your search criteria");
+            }
         }
 
     }

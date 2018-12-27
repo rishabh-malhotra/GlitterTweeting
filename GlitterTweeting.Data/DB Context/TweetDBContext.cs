@@ -125,12 +125,12 @@ namespace GlitterTweeting.Data.DB_Context
 
         public bool DeleteTweet(Guid uid, Guid tid)
         {
-            Tweet tweet = DBContext.Tweet.Where(ds => ds.ID == tid).FirstOrDefault();
-            User user = DBContext.User.Where(dr => dr.ID == uid).FirstOrDefault();
-            if (user.ID == tweet.UserID)
+
+            Tweet tweet = DBContext.Tweet.Where(ds => ds.ID == tid && ds.UserID == uid).FirstOrDefault();
+            
+            if (tweet!=null)
             {
                 tagdb.DeleteTag(tweet);
-                // DBContext.Tweet.DeleteObject(tweet);
                 DBContext.Entry(tweet).State = EntityState.Deleted;
                 DBContext.SaveChanges();
                 return true;
@@ -149,7 +149,7 @@ namespace GlitterTweeting.Data.DB_Context
         }
         public bool LikeTweet(LikeTweetDTO liketweetdto)
         {
-            LikeTweet liketweet1 = DBContext.LikeTweet.Where(ds => ds.UserID == liketweetdto.LoggedInUserID).FirstOrDefault();
+            LikeTweet liketweet1 = DBContext.LikeTweet.Where(ds => ds.UserID == liketweetdto.LoggedInUserID && ds.TweetID == liketweetdto.TweetID).FirstOrDefault();
             if (liketweet1 != null)
             {
                 return false;
@@ -168,12 +168,18 @@ namespace GlitterTweeting.Data.DB_Context
             }
 
         }
+
         public bool DisLikeTweet(Guid userid, Guid tweetid)
         {
-            LikeTweet tweet = DBContext.LikeTweet.Where(ds => ds.UserID == userid).FirstOrDefault();
-            DBContext.LikeTweet.Remove(tweet);
-            DBContext.SaveChanges();
-            return true;
+            LikeTweet tweet = DBContext.LikeTweet.Where(ds => ds.UserID == userid && ds.TweetID == tweetid).FirstOrDefault();
+            if (tweet != null)
+            {
+                DBContext.LikeTweet.Remove(tweet);
+                DBContext.SaveChanges();
+                return true;
+            }
+            else
+                return false;
         }
         public string MostLiked()
         {
@@ -186,9 +192,7 @@ namespace GlitterTweeting.Data.DB_Context
         public int TotalTweetsToday()
         {
             DateTime sysDate = DateTime.Today;
-            int count = DBContext.Tweet.Count(i => DbFunctions.TruncateTime(i.CreatedAt) == System.DateTime.Today);
-
-            // int count = DBContext.Tweet.Where(x => DbFuntions.TruncateTime(x.CreatedAt) == DateTime.Today).Count();
+            int count = DBContext.Tweet.Count(i => DbFunctions.TruncateTime(i.CreatedAt) == DateTime.Today);
             return count;
         }
 
@@ -202,7 +206,22 @@ namespace GlitterTweeting.Data.DB_Context
 
             public void Dispose()
             {
-                throw new NotImplementedException();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (DBContext != null)
+                {
+                    DBContext.Dispose();
+                }
             }
         }
+        ~TweetDBContext()
+        {
+            Dispose(false);
+        }
+    }
 }

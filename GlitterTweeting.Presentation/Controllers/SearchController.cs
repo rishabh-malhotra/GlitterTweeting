@@ -33,7 +33,7 @@ namespace GlitterTweeting.Presentation.Controllers
         [HttpPost]
         [Route("api/user/searchUser")]
         public IList<SearchDTO> Post([FromBody] SearchModel SearchString)
-        {
+            {
             SearchDTO Dto = new SearchDTO();
             Dto.SearchString = SearchString.SearchString;
             IList<SearchDTO> AllResults = searchBusinessContext.SearchAllUsers(Dto.SearchString);

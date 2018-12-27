@@ -59,6 +59,7 @@
     <Compile Include="DB Context\SearchDBContext.cs" />
     <Compile Include="DB Context\TweetDBContext.cs" />
     <Compile Include="DB Context\UserDBContext.cs" />
+    <Compile Include="Exceptions\UserNotExistException.cs" />
     <Compile Include="Follow.cs">
       <DependentUpon>GlitterTweetingDBModel.tt</DependentUpon>
     </Compile>
@@ -86,6 +87,7 @@
       <DependentUpon>GlitterTweetingDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DB Context\TagDBContext.cs" />
+    <Compile Include="Exceptions\TagNotExistException.cs" />
     <Compile Include="Tweet.cs">
       <DependentUpon>GlitterTweetingDBModel.tt</DependentUpon>
     </Compile>
