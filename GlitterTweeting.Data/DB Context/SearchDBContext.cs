@@ -9,7 +9,7 @@ using GlitterTweeting.Shared.DTO.Search;
 
 namespace GlitterTweeting.Data.DB_Context
 {
-    public class SearchDBContext : IDisposable
+    public class SearchDBContext
     {
         glitterEntities DBContext;
         TweetDBContext tbc;
@@ -50,7 +50,7 @@ namespace GlitterTweeting.Data.DB_Context
                 }
                 else
                 {
-                    throw new Exceptions.UserNotExistExeption ("User Not Exists");
+                    throw new Exceptions.UserNotExistException("User Not Exists");
                 }
             }
             else return null;
@@ -83,7 +83,7 @@ namespace GlitterTweeting.Data.DB_Context
                     return resultList;
                 }
 
-                else throw new Exceptions.TagNotExist("no Tag exists based on the current Search String");
+                else throw new Exceptions.TagNotExistException("no Tag exists based on the current Search String");
             }
             else return null;
         }
@@ -98,6 +98,7 @@ namespace GlitterTweeting.Data.DB_Context
                 }
             }
         }
+
         ~SearchDBContext()
         {
             Dispose(false);
