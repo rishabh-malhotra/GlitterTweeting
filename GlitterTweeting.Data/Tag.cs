@@ -20,5 +20,6 @@ namespace GlitterTweeting.Data
         public Nullable<int> SearchCount { get; set; }
     
         public virtual Tweet Tweet { get; set; }
+        public virtual Tweet Tweet1 { get; set; }
     }
 }

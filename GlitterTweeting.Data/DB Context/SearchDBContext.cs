@@ -1,33 +1,28 @@
-﻿using AutoMapper;
-using GlitterTweeting.Shared.DTO.User;
+﻿using GlitterTweeting.Shared.DTO.Search;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GlitterTweeting.Shared.DTO.Search;
 
 namespace GlitterTweeting.Data.DB_Context
 {
-    public class SearchDBContext
+    public class SearchDBContext:IDisposable
     {
         glitterEntities DBContext;
         TweetDBContext tbc;
-        IMapper userMapper;
         public SearchDBContext()
         {
             tbc = new TweetDBContext();
-            DBContext = new glitterEntities();
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<User, UserBasicDTO>();
-            });
-            userMapper = new Mapper(config);
         }
 
+        /// <summary>
+        /// db context function to get all users through a search string
+        /// </summary>
+        /// <param name="searchString"></param>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public IList<SearchDTO> GetAllUsers(string searchString,Guid UserId)
         {
-            if (searchString != null)
+            if (searchString != null && searchString!="")
             {
 
                 IList<SearchDTO> resultList = new List<SearchDTO>();
@@ -58,15 +53,23 @@ namespace GlitterTweeting.Data.DB_Context
                 }
                 else
                 {
-                    throw new Exceptions.UserNotExistException("User Not Exists");
+                    return null;
                 }
             }
             else return null;
             }
 
+
+
+        /// <summary>
+        /// db context function to get all posts if it contains a particular hashtag through a search string
+        /// </summary>
+        /// <param name="searchString"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public IList<SearchDTO> GetAllHashTag(string searchString,Guid userId)
         {
-            if (searchString != null)
+            if (searchString != null && searchString!="")
             {
                 IList<Tag> tag = DBContext.Tag.Where(de => de.TagName.Contains(searchString)).ToList();
                 IList<SearchDTO> resultList = new List<SearchDTO>();
@@ -92,11 +95,21 @@ namespace GlitterTweeting.Data.DB_Context
                     return resultList;
                 }
 
-                else throw new Exceptions.TagNotExistException("no Tag exists based on the current Search String");
+                else return null;
             }
             else return null;
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// virtual dispose to class
+        /// </summary>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -108,6 +121,9 @@ namespace GlitterTweeting.Data.DB_Context
             }
         }
 
+        /// <summary>
+        /// Destructor to class
+        /// </summary>
         ~SearchDBContext()
         {
             Dispose(false);

@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="glitterModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Follow">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Follower_UserID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Followed_UserID" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LikeTweet">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="TweetID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserID" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tag">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="TweetID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="TagName" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="SearchCount" Type="int" />
+  </EntityType>
+  <EntityType Name="Tweet">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Message" Type="nvarchar" MaxLength="240" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Image" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Country" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_dbo_Follow_dbo_User_Followed_UserID">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Follow" Type="Self.Follow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Follow">
+        <PropertyRef Name="Followed_UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Follow_dbo_User_Follower_UserID">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Follow" Type="Self.Follow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Follow">
+        <PropertyRef Name="Follower_UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_LikeTweet_dbo_Tweet_TweetID">
+    <End Role="Tweet" Type="Self.Tweet" Multiplicity="1" />
+    <End Role="LikeTweet" Type="Self.LikeTweet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tweet">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="LikeTweet">
+        <PropertyRef Name="TweetID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_LikeTweet_dbo_User_UserID">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="LikeTweet" Type="Self.LikeTweet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="LikeTweet">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Tag_dbo_Tweet_TweetID">
+    <End Role="Tweet" Type="Self.Tweet" Multiplicity="1" />
+    <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tweet">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Tag">
+        <PropertyRef Name="TweetID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Tweet_dbo_User_UserID">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Tweet" Type="Self.Tweet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Tweet">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tag_Tweet">
+    <End Role="Tweet" Type="Self.Tweet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tweet">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Tag">
+        <PropertyRef Name="TweetID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="test1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
+    <Parameter Name="LastName" Type="nvarchar" Mode="In" />
+    <Parameter Name="PasswordHash" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="Email" Type="nvarchar" Mode="In" />
+    <Parameter Name="PhoneNumber" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="Image" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="Country" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <EntityContainer Name="glitterModelStoreContainer">
+    <EntitySet Name="Follow" EntityType="Self.Follow" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LikeTweet" EntityType="Self.LikeTweet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tag" EntityType="Self.Tag" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tweet" EntityType="Self.Tweet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_dbo_Follow_dbo_User_Followed_UserID" Association="Self.FK_dbo_Follow_dbo_User_Followed_UserID">
+      <End Role="User" EntitySet="User" />
+      <End Role="Follow" EntitySet="Follow" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Follow_dbo_User_Follower_UserID" Association="Self.FK_dbo_Follow_dbo_User_Follower_UserID">
+      <End Role="User" EntitySet="User" />
+      <End Role="Follow" EntitySet="Follow" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_LikeTweet_dbo_Tweet_TweetID" Association="Self.FK_dbo_LikeTweet_dbo_Tweet_TweetID">
+      <End Role="Tweet" EntitySet="Tweet" />
+      <End Role="LikeTweet" EntitySet="LikeTweet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_LikeTweet_dbo_User_UserID" Association="Self.FK_dbo_LikeTweet_dbo_User_UserID">
+      <End Role="User" EntitySet="User" />
+      <End Role="LikeTweet" EntitySet="LikeTweet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Tag_dbo_Tweet_TweetID" Association="Self.FK_dbo_Tag_dbo_Tweet_TweetID">
+      <End Role="Tweet" EntitySet="Tweet" />
+      <End Role="Tag" EntitySet="Tag" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Tweet_dbo_User_UserID" Association="Self.FK_dbo_Tweet_dbo_User_UserID">
+      <End Role="User" EntitySet="User" />
+      <End Role="Tweet" EntitySet="Tweet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tag_Tweet" Association="Self.FK_Tag_Tweet">
+      <End Role="Tweet" EntitySet="Tweet" />
+      <End Role="Tag" EntitySet="Tag" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

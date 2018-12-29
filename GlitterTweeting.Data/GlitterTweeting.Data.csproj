@@ -12,6 +12,21 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -61,64 +76,50 @@
     <Compile Include="DB Context\UserDBContext.cs" />
     <Compile Include="Exceptions\UserNotExistException.cs" />
     <Compile Include="Follow.cs">
-      <DependentUpon>GlitterTweetingDBModel.tt</DependentUpon>
+      <DependentUpon>glitterDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="GlitterTweetingDBModel.Context.cs">
+    <Compile Include="glitterDBModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GlitterTweetingDBModel.Context.tt</DependentUpon>
+      <DependentUpon>glitterDBModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="GlitterTweetingDBModel.cs">
+    <Compile Include="glitterDBModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GlitterTweetingDBModel.tt</DependentUpon>
+      <DependentUpon>glitterDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="GlitterTweetingDBModel.Designer.cs">
+    <Compile Include="glitterDBModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GlitterTweetingDBModel.edmx</DependentUpon>
+      <DependentUpon>glitterDBModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="LikeTweet.cs">
-      <DependentUpon>GlitterTweetingDBModel.tt</DependentUpon>
+      <DependentUpon>glitterDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ObjectFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tag.cs">
-      <DependentUpon>GlitterTweetingDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DB Context\TagDBContext.cs" />
     <Compile Include="Exceptions\TagNotExistException.cs" />
+    <Compile Include="Tag.cs">
+      <DependentUpon>glitterDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Tweet.cs">
-      <DependentUpon>GlitterTweetingDBModel.tt</DependentUpon>
+      <DependentUpon>glitterDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="User.cs">
-      <DependentUpon>GlitterTweetingDBModel.tt</DependentUpon>
+      <DependentUpon>glitterDBModel.tt</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="GlitterTweetingDBModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>GlitterTweetingDBModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="GlitterTweetingDBModel.edmx.diagram">
-      <DependentUpon>GlitterTweetingDBModel.edmx</DependentUpon>
+    <EntityDeploy Include="glitterDBModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>glitterDBModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="glitterDBModel.edmx.diagram">
+      <DependentUpon>glitterDBModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="GlitterTweetingDBModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GlitterTweetingDBModel.Context.cs</LastGenOutput>
-      <DependentUpon>GlitterTweetingDBModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="GlitterTweetingDBModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>GlitterTweetingDBModel.edmx</DependentUpon>
-      <LastGenOutput>GlitterTweetingDBModel.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -128,6 +129,37 @@
       <Project>{870c659b-a146-4998-ae28-b856afbe80c1}</Project>
       <Name>GlitterTweeting.Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="glitter.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="glitterDBModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>glitterDBModel.edmx</DependentUpon>
+      <LastGenOutput>glitterDBModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="glitterDBModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>glitterDBModel.edmx</DependentUpon>
+      <LastGenOutput>glitterDBModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="glitter_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>glitter.mdf</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

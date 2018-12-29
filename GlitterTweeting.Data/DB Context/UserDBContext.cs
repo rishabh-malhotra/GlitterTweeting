@@ -204,7 +204,7 @@ namespace GlitterTweeting.Data.DB_Context
 
         public bool Follow(FollowDTO followdto)
         {
-            Follow follow1 = DBContext.Follow.Where(ds => ds.Followed_UserID == followdto.UserToFollowID).FirstOrDefault();
+            Follow follow1 =    DBContext.Follow.Where(ds => ds.Followed_UserID == followdto.UserToFollowID).FirstOrDefault();
             if (follow1 != null && follow1.Follower_UserID == followdto.UserID)
             {
                 return false;

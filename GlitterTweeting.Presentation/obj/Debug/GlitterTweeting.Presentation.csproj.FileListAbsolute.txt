@@ -127,3 +127,5 @@ C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Presentati
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Presentation\bin\Microsoft.Owin.Host.SystemWeb.xml
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Presentation\bin\Microsoft.Owin.Security.xml
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Presentation\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Presentation\bin\glitter.mdf
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Presentation\bin\glitter_log.ldf

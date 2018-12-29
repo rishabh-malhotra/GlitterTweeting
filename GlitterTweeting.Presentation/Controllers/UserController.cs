@@ -1,17 +1,15 @@
 ﻿using AutoMapper;
 using GlitterTweeting.Business.Business_Objects;
 using GlitterTweeting.Presentation.Models;
+using GlitterTweeting.Shared.DTO.Relationship;
 using GlitterTweeting.Shared.DTO.User;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web;
-using GlitterTweeting.Data.DB_Context;
-using System.Collections.Generic;
-using GlitterTweeting.Shared.DTO.Relationship;
 
 namespace GlitterTweeting.Presentation.Controllers
 {
@@ -63,14 +61,6 @@ namespace GlitterTweeting.Presentation.Controllers
                 }
                 UserLoginDTO useLoginDTO = UserMapper.Map<UserLoginModel, UserLoginDTO>(user);
                 UserCompleteDTO loginUser = await UserBusinessContext.LoginUserCheck(useLoginDTO);
-                //HttpContext.Current.Session["ProfileImage"] = loginUser.Image;
-                //var Image = HttpContext.Current.Session["ProfileImage"];
-                //HttpContext.Current.Session["UserID"] = loginUser.ID;
-                //HttpContext.Current.Session["FirstName"] = loginUser.FirstName;
-                //var Id = HttpContext.Current.Session["UserID"];
-                //var UserName = HttpContext.Current.Session["FirstName"];
-
-
                 return Ok(new { ID = loginUser.ID, Username = loginUser.FirstName });
             }
             catch (Exception e)
@@ -85,7 +75,7 @@ namespace GlitterTweeting.Presentation.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        
+
         public async Task<IHttpActionResult> Post([FromBody] UserRegisterModel user)
         {
             try
@@ -99,7 +89,7 @@ namespace GlitterTweeting.Presentation.Controllers
                 {
 
                     return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.Forbidden, JsonConvert.SerializeObject(string.Join(" | ", ModelState.Values))));
-                                                                                                                             
+
                 }
                 UserRegisterDTO userPostDTO = UserMapper.Map<UserRegisterModel, UserRegisterDTO>(user);
                 UserCompleteDTO newUser = await UserBusinessContext.CreateNewUser(userPostDTO);
@@ -124,7 +114,7 @@ namespace GlitterTweeting.Presentation.Controllers
             followdto.UserToFollowID = Guid.Parse(followModel.UserToFollowID);
             bool result = UserBusinessContext.Follow(followdto);
             return result;
-            
+
         }
 
 
@@ -146,7 +136,7 @@ namespace GlitterTweeting.Presentation.Controllers
         [Route("api/user/followers/{userId}")]
         public IList<UserBasicDTO> Get(string userId)
         {
-           
+
             Guid loggedinuserid = Guid.Parse(userId);
             IList<UserBasicDTO> gd = UserBusinessContext.GetAllFollowers(loggedinuserid);
 
@@ -163,31 +153,7 @@ namespace GlitterTweeting.Presentation.Controllers
             return gd;
         }
 
-        /// <summary>
-        /// Authorizes and returns basic info of the user with given ID.
-        /// </summary>
-        /// <returns>Basic info or error</returns>
-        //[Authorize]
-        //public async Task<IHttpActionResult> Get()
-        //{
-        //    var identity = (ClaimsIdentity)User.Identity;
-        //    Guid id = Guid.Parse(identity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).First());
 
-        //    try
-        //    {
-        //        UserBasicDTO userInfo = await UserBusinessContext.GetUser(id);
-        //        AuthorModel userBasicInfo = ModelFactory.Create(userInfo);
-        //        return Ok(new { user = userBasicInfo });
-        //    }
-        //    catch (DoesNotExistsException ex)
-        //    {
-        //        return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.Forbidden, JsonConvert.SerializeObject(ex.Message)));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.Forbidden, JsonConvert.SerializeObject(ex.Message)));
-        //    }
-        //}
     }
 }
 

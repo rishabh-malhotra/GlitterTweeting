@@ -15,32 +15,23 @@ namespace GlitterTweeting.Data.DB_Context
         {
             glitterEntities DBContext;
             TagDBContext tagdb;
-            private IMapper TweetMapper, tweetMapper;
+           
             public TweetDBContext()
             {
                 tagdb = new TagDBContext();
                 DBContext = new glitterEntities();
-
-                var config = new MapperConfiguration(cfg =>
-                {
-                    cfg.CreateMap<Tweet, NewTweetDTO>();
-
-                });
-                var configuration = new MapperConfiguration(cfg =>
-                {
-                    cfg.CreateMap<NewTweetDTO, Tweet>();
-
-                });
-                TweetMapper = new Mapper(config);
-                tweetMapper = new Mapper(configuration);
-
-
-
             }
 
-            public async Task<NewTweetDTO> CreateNewTweet(NewTweetDTO tweetInput)
+        /// <summary>
+        /// db context function to create a new tweet and store it in the db
+        /// </summary>
+        /// <param name="tweetInput"></param>
+        /// <returns></returns>
+        public async Task<NewTweetDTO> CreateNewTweet(NewTweetDTO tweetInput)
+        {
+            using (glitterEntities DBContext = new glitterEntities())
             {
-                
+
                 Tweet newTweet = new Tweet();
                 newTweet.ID = System.Guid.NewGuid();
                 newTweet.Message = tweetInput.Message;
@@ -49,10 +40,16 @@ namespace GlitterTweeting.Data.DB_Context
                 DBContext.Tweet.Add(newTweet);
                 await DBContext.SaveChangesAsync();
                 tweetInput.TweetID = newTweet.ID;
-            
+
                 return tweetInput;
             }
+        }
 
+        /// <summary>
+        /// function to update search count of a particular tweet when it is being searched..
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool updateSearchCount(Tag item)
         {
             Tag updateTag = DBContext.Tag.Where(dr => dr.ID == item.ID).FirstOrDefault();
@@ -68,10 +65,16 @@ namespace GlitterTweeting.Data.DB_Context
             return true;
         }
 
+        /// <summary>
+        /// db context functions to get all tweets
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IList<GetAllTweetsDTO> GetAllTweets(Guid id)
             {
                 IList<GetAllTweetsDTO> tweetList = new List<GetAllTweetsDTO>();
                 IList<GetAllTweetsDTO> tweetList1 = new List<GetAllTweetsDTO>();
+
             tweetList = (from u in DBContext.Follow.Where(ds => ds.Follower_UserID == id)
                          join uf in DBContext.Follow on u.Followed_UserID equals uf.Followed_UserID
                          join t in DBContext.Tweet on uf.Followed_UserID equals t.UserID
@@ -84,9 +87,10 @@ namespace GlitterTweeting.Data.DB_Context
                              UserName = user.FirstName + user.LastName,
                              IsAuthor = false,
                              TweetID = t.ID
-                         }).ToList();
+                         }).Distinct().ToList();
             foreach (var iter in tweetList)
-            { LikeTweet t = DBContext.LikeTweet.Where(x => (x.UserID == id) && (x.TweetID == iter.TweetID)).FirstOrDefault();
+            {
+                LikeTweet t = DBContext.LikeTweet.Where(x => (x.UserID == id) && (x.TweetID == iter.TweetID)).FirstOrDefault();
                 if (t != null)
                 {
                     iter.isLiked = true;
@@ -113,7 +117,12 @@ namespace GlitterTweeting.Data.DB_Context
 
 
             
-
+        /// <summary>
+        /// db context function to delete a tweet
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="tid"></param>
+        /// <returns></returns>
         public bool DeleteTweet(Guid uid, Guid tid)
         {
 
@@ -121,7 +130,7 @@ namespace GlitterTweeting.Data.DB_Context
             
             if (tweet!=null)
             {
-                tagdb.DeleteTag(tweet);
+                tagdb.DeleteTag(tweet.ID);
                 DBContext.Entry(tweet).State = EntityState.Deleted;
                 DBContext.SaveChanges();
                 return true;
@@ -129,15 +138,30 @@ namespace GlitterTweeting.Data.DB_Context
             else { return false; }
         }
 
-        public void UpdateTweet(NewTweetDTO updatedTweet)
+        /// <summary>
+        /// db context function to update a tweet
+        /// </summary>
+        /// <param name="updatedTweet"></param>
+        /// <returns></returns>
+        public Guid UpdateTweet(NewTweetDTO updatedTweet)
         {
-            Tweet tweet = DBContext.Tweet.Where(ds => ds.ID == updatedTweet.TweetID).FirstOrDefault();
-            tweet.Message = updatedTweet.Message;
-            tweet.CreatedAt = System.DateTime.Now;
-            DBContext.SaveChanges();
-            // Tweet newTweet = tweetMapper.Map<NewTweetDTO, Tweet>(tweetInput);
+            using (glitterEntities DBContext = new glitterEntities())
+            {
+                Tweet tweet = DBContext.Tweet.Where(ds => ds.ID == updatedTweet.TweetID).FirstOrDefault();
+
+                tweet.Message = updatedTweet.Message;
+                tweet.CreatedAt = System.DateTime.Now;
+                DBContext.SaveChanges();
+            }
+            return updatedTweet.TweetID;
 
         }
+
+        /// <summary>
+        /// db context function to like a tweet if it is not being already liked by the same user
+        /// </summary>
+        /// <param name="liketweetdto"></param>
+        /// <returns></returns>
         public bool LikeTweet(LikeTweetDTO liketweetdto)
         {
             LikeTweet liketweet1 = DBContext.LikeTweet.Where(ds => ds.UserID == liketweetdto.LoggedInUserID && ds.TweetID == liketweetdto.TweetID).FirstOrDefault();
@@ -160,6 +184,12 @@ namespace GlitterTweeting.Data.DB_Context
 
         }
 
+        /// <summary>
+        /// db context function to dislike a tweet if it is being alreay liked by a particular user
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <param name="tweetid"></param>
+        /// <returns></returns>
         public bool DisLikeTweet(Guid userid, Guid tweetid)
         {
             LikeTweet tweet = DBContext.LikeTweet.Where(ds => ds.UserID == userid && ds.TweetID == tweetid).FirstOrDefault();
@@ -172,6 +202,11 @@ namespace GlitterTweeting.Data.DB_Context
             else
                 return false;
         }
+
+        /// <summary>
+        /// db context function to get the most liked tweet for analytics
+        /// </summary>
+        /// <returns></returns>
         public string MostLiked()
         {
 
@@ -180,6 +215,10 @@ namespace GlitterTweeting.Data.DB_Context
             return t.Message;
         }
 
+        /// <summary>
+        /// db context function to getall the tweets posted on the same date for analytics
+        /// </summary>
+        /// <returns></returns>
         public int TotalTweetsToday()
         {
             DateTime sysDate = DateTime.Today;
@@ -187,6 +226,10 @@ namespace GlitterTweeting.Data.DB_Context
             return count;
         }
 
+        /// <summary>
+        /// dbcontext function to get the most trending tweet by using searchCount(tweet having the most searchCount wwill be the most trending)
+        /// </summary>
+        /// <returns></returns>
         public string MostTrending()
         {
             IEnumerable<Tag> tagbyName = DBContext.Tag.OrderByDescending(re => re.SearchCount).ThenByDescending(re => re.TagName);
@@ -200,6 +243,7 @@ namespace GlitterTweeting.Data.DB_Context
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

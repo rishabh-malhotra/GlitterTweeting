@@ -19,6 +19,7 @@ namespace GlitterTweeting.Data
         {
             this.LikeTweet = new HashSet<LikeTweet>();
             this.Tag = new HashSet<Tag>();
+            this.Tag1 = new HashSet<Tag>();
         }
     
         public System.Guid ID { get; set; }
@@ -30,6 +31,8 @@ namespace GlitterTweeting.Data
         public virtual ICollection<LikeTweet> LikeTweet { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tag> Tag { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tag> Tag1 { get; set; }
         public virtual User User { get; set; }
     }
 }

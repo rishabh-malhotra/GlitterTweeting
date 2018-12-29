@@ -18,3 +18,5 @@ C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Data\obj\D
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Data\obj\Debug\GlitterTweeting.Data.dll
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Data\obj\Debug\GlitterTweeting.Data.pdb
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\GlitterTweeting.Shared.dll.config
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\glitter.mdf
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\glitter_log.ldf

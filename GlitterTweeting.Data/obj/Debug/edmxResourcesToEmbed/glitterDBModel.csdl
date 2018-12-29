@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="glitterModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Follow">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="Follower_UserID" Type="Guid" Nullable="false" />
+    <Property Name="Followed_UserID" Type="Guid" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK_dbo_Follow_dbo_User_Followed_UserID" FromRole="Follow" ToRole="User" />
+    <NavigationProperty Name="User1" Relationship="Self.FK_dbo_Follow_dbo_User_Follower_UserID" FromRole="Follow" ToRole="User" />
+  </EntityType>
+  <EntityType Name="LikeTweet">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="TweetID" Type="Guid" Nullable="false" />
+    <Property Name="UserID" Type="Guid" Nullable="false" />
+    <NavigationProperty Name="Tweet" Relationship="Self.FK_dbo_LikeTweet_dbo_Tweet_TweetID" FromRole="LikeTweet" ToRole="Tweet" />
+    <NavigationProperty Name="User" Relationship="Self.FK_dbo_LikeTweet_dbo_User_UserID" FromRole="LikeTweet" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Tag">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="TweetID" Type="Guid" Nullable="false" />
+    <Property Name="TagName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SearchCount" Type="Int32" />
+    <NavigationProperty Name="Tweet" Relationship="Self.FK_dbo_Tag_dbo_Tweet_TweetID" FromRole="Tag" ToRole="Tweet" />
+    <NavigationProperty Name="Tweet1" Relationship="Self.FK_Tag_Tweet" FromRole="Tag" ToRole="Tweet" />
+  </EntityType>
+  <EntityType Name="Tweet">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="UserID" Type="Guid" Nullable="false" />
+    <Property Name="Message" Type="String" MaxLength="240" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="LikeTweet" Relationship="Self.FK_dbo_LikeTweet_dbo_Tweet_TweetID" FromRole="Tweet" ToRole="LikeTweet" />
+    <NavigationProperty Name="Tag" Relationship="Self.FK_dbo_Tag_dbo_Tweet_TweetID" FromRole="Tweet" ToRole="Tag" />
+    <NavigationProperty Name="Tag1" Relationship="Self.FK_Tag_Tweet" FromRole="Tweet" ToRole="Tag" />
+    <NavigationProperty Name="User" Relationship="Self.FK_dbo_Tweet_dbo_User_UserID" FromRole="Tweet" ToRole="User" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Follow" Relationship="Self.FK_dbo_Follow_dbo_User_Followed_UserID" FromRole="User" ToRole="Follow" />
+    <NavigationProperty Name="Follow1" Relationship="Self.FK_dbo_Follow_dbo_User_Follower_UserID" FromRole="User" ToRole="Follow" />
+    <NavigationProperty Name="LikeTweet" Relationship="Self.FK_dbo_LikeTweet_dbo_User_UserID" FromRole="User" ToRole="LikeTweet" />
+    <NavigationProperty Name="Tweet" Relationship="Self.FK_dbo_Tweet_dbo_User_UserID" FromRole="User" ToRole="Tweet" />
+  </EntityType>
+  <Association Name="FK_dbo_Follow_dbo_User_Followed_UserID">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Follow" Type="Self.Follow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Follow">
+        <PropertyRef Name="Followed_UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Follow_dbo_User_Follower_UserID">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Follow" Type="Self.Follow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Follow">
+        <PropertyRef Name="Follower_UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_LikeTweet_dbo_Tweet_TweetID">
+    <End Role="Tweet" Type="Self.Tweet" Multiplicity="1" />
+    <End Role="LikeTweet" Type="Self.LikeTweet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tweet">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="LikeTweet">
+        <PropertyRef Name="TweetID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_LikeTweet_dbo_User_UserID">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="LikeTweet" Type="Self.LikeTweet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="LikeTweet">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Tag_dbo_Tweet_TweetID">
+    <End Role="Tweet" Type="Self.Tweet" Multiplicity="1" />
+    <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tweet">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Tag">
+        <PropertyRef Name="TweetID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tag_Tweet">
+    <End Role="Tweet" Type="Self.Tweet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tweet">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Tag">
+        <PropertyRef Name="TweetID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Tweet_dbo_User_UserID">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Tweet" Type="Self.Tweet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Tweet">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="glitterEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Follow" EntityType="Self.Follow" />
+    <EntitySet Name="LikeTweet" EntityType="Self.LikeTweet" />
+    <EntitySet Name="Tag" EntityType="Self.Tag" />
+    <EntitySet Name="Tweet" EntityType="Self.Tweet" />
+    <EntitySet Name="User" EntityType="Self.User" />
+    <AssociationSet Name="FK_dbo_Follow_dbo_User_Followed_UserID" Association="Self.FK_dbo_Follow_dbo_User_Followed_UserID">
+      <End Role="User" EntitySet="User" />
+      <End Role="Follow" EntitySet="Follow" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Follow_dbo_User_Follower_UserID" Association="Self.FK_dbo_Follow_dbo_User_Follower_UserID">
+      <End Role="User" EntitySet="User" />
+      <End Role="Follow" EntitySet="Follow" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_LikeTweet_dbo_Tweet_TweetID" Association="Self.FK_dbo_LikeTweet_dbo_Tweet_TweetID">
+      <End Role="Tweet" EntitySet="Tweet" />
+      <End Role="LikeTweet" EntitySet="LikeTweet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_LikeTweet_dbo_User_UserID" Association="Self.FK_dbo_LikeTweet_dbo_User_UserID">
+      <End Role="User" EntitySet="User" />
+      <End Role="LikeTweet" EntitySet="LikeTweet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Tag_dbo_Tweet_TweetID" Association="Self.FK_dbo_Tag_dbo_Tweet_TweetID">
+      <End Role="Tweet" EntitySet="Tweet" />
+      <End Role="Tag" EntitySet="Tag" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tag_Tweet" Association="Self.FK_Tag_Tweet">
+      <End Role="Tweet" EntitySet="Tweet" />
+      <End Role="Tag" EntitySet="Tag" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Tweet_dbo_User_UserID" Association="Self.FK_dbo_Tweet_dbo_User_UserID">
+      <End Role="User" EntitySet="User" />
+      <End Role="Tweet" EntitySet="Tweet" />
+    </AssociationSet>
+    <FunctionImport Name="test1">
+      <Parameter Name="FirstName" Mode="In" Type="String" />
+      <Parameter Name="LastName" Mode="In" Type="String" />
+      <Parameter Name="PasswordHash" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="PhoneNumber" Mode="In" Type="String" />
+      <Parameter Name="Image" Mode="In" Type="String" />
+      <Parameter Name="Country" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+</Schema>

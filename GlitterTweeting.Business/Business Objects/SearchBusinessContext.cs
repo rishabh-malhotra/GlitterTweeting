@@ -1,11 +1,7 @@
 ﻿using GlitterTweeting.Data.DB_Context;
-using GlitterTweeting.Shared.DTO.User;
+using GlitterTweeting.Shared.DTO.Search;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GlitterTweeting.Shared.DTO.Search;
 
 namespace GlitterTweeting.Business.Business_Objects
 {
@@ -16,6 +12,9 @@ namespace GlitterTweeting.Business.Business_Objects
         {
             searchDBContext = new SearchDBContext();
         }
+
+
+        //search by users
         public IList<SearchDTO> SearchAllUsers(string searchString,Guid UserId)
         {
             IList<SearchDTO> getAllResults = searchDBContext.GetAllUsers(searchString,UserId);
@@ -25,10 +24,12 @@ namespace GlitterTweeting.Business.Business_Objects
             }
             else
             {
-                throw new Exceptions.ResultIsNullException("No item Exists matching your search criteria");
+                return null;
             }
 
         }
+
+        //serching by hashtags
         public IList<SearchDTO> SearchAllHashTag(string searchString,Guid UserId)
         {
             IList<SearchDTO> getAllResults = searchDBContext.GetAllHashTag(searchString,UserId);
@@ -38,7 +39,7 @@ namespace GlitterTweeting.Business.Business_Objects
             }
             else
             {
-                throw new Exceptions.ResultIsNullException("No item Exists matching your search criteria");
+                return null;
             }
         }
 

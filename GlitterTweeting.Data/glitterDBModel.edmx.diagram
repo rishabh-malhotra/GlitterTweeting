@@ -4,17 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1ab84ce7b34d4633b767cb91b8ad5565" Name="Diagram1">
+      <Diagram DiagramId="ac15e10e0f414a4bb69e8d2d473856f1" Name="Diagram1">
         <EntityTypeShape EntityType="glitterModel.Follow" Width="1.5" PointX="3" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="glitterModel.LikeTweet" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="glitterModel.Tag" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="glitterModel.LikeTweet" Width="1.5" PointX="5.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="glitterModel.Tag" Width="1.5" PointX="5.25" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="glitterModel.Tweet" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="glitterModel.User" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="glitterModel.User" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
         <AssociationConnector Association="glitterModel.FK_dbo_Follow_dbo_User_Followed_UserID" ManuallyRouted="false" />
         <AssociationConnector Association="glitterModel.FK_dbo_Follow_dbo_User_Follower_UserID" ManuallyRouted="false" />
         <AssociationConnector Association="glitterModel.FK_dbo_LikeTweet_dbo_Tweet_TweetID" ManuallyRouted="false" />
         <AssociationConnector Association="glitterModel.FK_dbo_LikeTweet_dbo_User_UserID" ManuallyRouted="false" />
         <AssociationConnector Association="glitterModel.FK_dbo_Tag_dbo_Tweet_TweetID" ManuallyRouted="false" />
+        <AssociationConnector Association="glitterModel.FK_Tag_Tweet" ManuallyRouted="false" />
         <AssociationConnector Association="glitterModel.FK_dbo_Tweet_dbo_User_UserID" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

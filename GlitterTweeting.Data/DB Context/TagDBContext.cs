@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Linq;
 
 namespace GlitterTweeting.Data.DB_Context
 {
     public class TagDBContext : IDisposable
     {
+        glitterEntities dbCOntext = new glitterEntities();
+
+
+        /// <summary>
+        /// db context function to add tags to the db contained in a particular tweet
+        /// </summary>
+        /// <param name="tags"></param>
+        /// <param name="tweetid"></param>
+        /// <returns></returns>
         public bool AddTags(List<string> tags, Guid tweetid)
         {
             using (glitterEntities dbcontext = new glitterEntities())
@@ -19,7 +26,6 @@ namespace GlitterTweeting.Data.DB_Context
                     newtag.ID = Guid.NewGuid();
                     newtag.TweetID = tweetid;
                     newtag.TagName = s;
-                    //  newtag.Count = 1;
                     dbcontext.Tag.Add(newtag);
                     dbcontext.SaveChanges();
 
@@ -27,17 +33,22 @@ namespace GlitterTweeting.Data.DB_Context
             }
             return true;
         }
-
-        public bool DeleteTag(Tweet tweet)
+        /// <summary>
+        /// Db Context dunction to delete all tags of a particular tweet
+        /// </summary>
+        /// <param name="tweetId"></param>
+        /// <returns></returns>
+        public bool DeleteTag(Guid tweetId)
         {
             using (glitterEntities DBContext = new glitterEntities())
             {
-                IList<Tag> taglist = DBContext.Tag.Where(dr => dr.TweetID == tweet.ID).ToList();
+                IList<Tag> taglist = DBContext.Tag.Where(dr => dr.TweetID == tweetId).ToList();
                 if (taglist.Count > 0)
                 {
                     foreach (var item in taglist)
                     {
                         DBContext.Entry(item).State = EntityState.Deleted;
+                        DBContext.SaveChanges();
                     }
                     return true;
                 }
@@ -50,7 +61,31 @@ namespace GlitterTweeting.Data.DB_Context
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Dispose(true);
+        GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// virtual dispose to class
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (dbCOntext != null)
+                {
+                    dbCOntext.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Destructor to class
+        /// </summary>
+        ~TagDBContext()
+        {
+            Dispose(false);
         }
     }
 }

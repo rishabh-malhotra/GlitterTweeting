@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="glitterModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="glitterModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Follow">
           <Key>
             <PropertyRef Name="ID" />
@@ -182,7 +182,8 @@
             <End Role="Tag" EntitySet="Tag" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="glitterModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -213,8 +214,9 @@
           <Property Name="ID" Type="Guid" Nullable="false" />
           <Property Name="TweetID" Type="Guid" Nullable="false" />
           <Property Name="TagName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Tweet" Relationship="Self.FK_dbo_Tag_dbo_Tweet_TweetID" FromRole="Tag" ToRole="Tweet" />
           <Property Name="SearchCount" Type="Int32" />
+          <NavigationProperty Name="Tweet" Relationship="Self.FK_dbo_Tag_dbo_Tweet_TweetID" FromRole="Tag" ToRole="Tweet" />
+          <NavigationProperty Name="Tweet1" Relationship="Self.FK_Tag_Tweet" FromRole="Tag" ToRole="Tweet" />
         </EntityType>
         <EntityType Name="Tweet">
           <Key>
@@ -226,6 +228,7 @@
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="LikeTweet" Relationship="Self.FK_dbo_LikeTweet_dbo_Tweet_TweetID" FromRole="Tweet" ToRole="LikeTweet" />
           <NavigationProperty Name="Tag" Relationship="Self.FK_dbo_Tag_dbo_Tweet_TweetID" FromRole="Tweet" ToRole="Tag" />
+          <NavigationProperty Name="Tag1" Relationship="Self.FK_Tag_Tweet" FromRole="Tweet" ToRole="Tag" />
           <NavigationProperty Name="User" Relationship="Self.FK_dbo_Tweet_dbo_User_UserID" FromRole="Tweet" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
@@ -305,6 +308,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Tag_Tweet">
+          <End Role="Tweet" Type="Self.Tweet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tweet">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tag">
+              <PropertyRef Name="TweetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_Tweet_dbo_User_UserID">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Tweet" Type="Self.Tweet" Multiplicity="*" />
@@ -340,6 +357,10 @@
             <End Role="LikeTweet" EntitySet="LikeTweet" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_Tag_dbo_Tweet_TweetID" Association="Self.FK_dbo_Tag_dbo_Tweet_TweetID">
+            <End Role="Tweet" EntitySet="Tweet" />
+            <End Role="Tag" EntitySet="Tag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tag_Tweet" Association="Self.FK_Tag_Tweet">
             <End Role="Tweet" EntitySet="Tweet" />
             <End Role="Tag" EntitySet="Tag" />
           </AssociationSet>
@@ -384,10 +405,10 @@
           <EntitySetMapping Name="Tag">
             <EntityTypeMapping TypeName="glitterModel.Tag">
               <MappingFragment StoreEntitySet="Tag">
-                <ScalarProperty Name="SearchCount" ColumnName="SearchCount" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="TweetID" ColumnName="TweetID" />
                 <ScalarProperty Name="TagName" ColumnName="TagName" />
+                <ScalarProperty Name="SearchCount" ColumnName="SearchCount" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

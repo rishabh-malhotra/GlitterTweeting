@@ -24,3 +24,5 @@ C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Business\b
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Business\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Business\bin\Debug\GlitterTweeting.Shared.dll.config
 C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Business\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Business\bin\Debug\glitter.mdf
+C:\Users\rishabhmalhotra\source\repos\GlitterTweeting\GlitterTweeting.Business\bin\Debug\glitter_log.ldf
